@@ -1,0 +1,27 @@
+{
+	"name": "sample-app",
+
+	"dockerFile": "Dockerfile",
+	"mounts": [
+		"source=${localEnv:HOME}/.netrc,target=/home/bun/.netrc,type=bind,consistency=cached"
+	],
+	"runArgs": ["--rm", "--name=${localWorkspaceFolderBasename}"],
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"biomejs.biome",
+				"oven.bun-vscode",
+				"seatonjiang.gitmoji-vscode"
+			],
+			"settings": {
+				"editor.codeActionsOnSave": {
+					"source.fixAll": "explicit",
+					"source.organizeImports": "explicit"
+				},
+				"editor.defaultFormatter": "biomejs.biome",
+				"editor.formatOnSave": true
+			}
+		}
+	}
+}
