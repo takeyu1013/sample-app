@@ -13,16 +13,7 @@ export async function GET(request: Request) {
 			title: "Sample App API",
 			version: "1.0.0",
 		},
-		servers: [{ url: "/api" /** Should use absolute URLs in production */ }],
-		security: [{ bearerAuth: [] }],
-		components: {
-			securitySchemes: {
-				bearerAuth: {
-					type: "http",
-					scheme: "bearer",
-				},
-			},
-		},
+		servers: [{ url: "/api" }],
 	});
 
 	return new Response(JSON.stringify(spec), {
