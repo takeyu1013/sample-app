@@ -9,6 +9,21 @@ const todoSchema = z.object({
 	email: z.string(),
 });
 
+export const createUser = os
+	.route({ method: "POST" })
+	.input(
+		z.object({
+			name: z.string(),
+			email: z.string(),
+		}),
+	)
+	.output(z.object({ id: z.string() }))
+	.handler(
+		async ({ input }) =>
+			(await db.insert(userTable).values(input).returning())[0],
+	)
+	.callable();
+
 export const listUser = os
 	.route({ method: "GET" })
 	.output(z.array(todoSchema))
@@ -17,6 +32,7 @@ export const listUser = os
 
 export const router = {
 	user: {
+		create: createUser,
 		list: listUser,
 	},
 };
