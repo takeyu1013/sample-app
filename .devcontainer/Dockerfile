@@ -10,3 +10,8 @@ RUN if [ "debian" == "alpine" ] ; then apk update ; else apt-get update ; fi
 # Install Git
 RUN if [ "debian" == "alpine" ] ; then apk add git ; else apt-get install -y git ; fi
 
+RUN apt update && apt install -y \
+    curl \
+    xz-utils
+USER bun
+RUN curl -sSfL https://get.tur.so/install.sh | TURSO_INSTALL_SKIP_SIGNUP=1 bash
