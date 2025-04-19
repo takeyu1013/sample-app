@@ -12,11 +12,16 @@
 	"dependencies": {
 		"@libsql/client": "^0.15.4",
 		"@next/env": "^15.3.1",
+		"@orpc/client": "^1.0.3",
+		"@orpc/openapi": "^1.0.3",
+		"@orpc/server": "^1.0.3",
+		"@orpc/zod": "^1.0.3",
 		"@paralleldrive/cuid2": "^2.2.2",
 		"drizzle-orm": "^0.42.0",
 		"next": "^15.3.1-canary.14",
 		"react": "^19.1.0",
-		"react-dom": "^19.1.0"
+		"react-dom": "^19.1.0",
+		"zod": "^3.24.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
