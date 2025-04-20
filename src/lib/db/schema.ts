@@ -5,6 +5,6 @@ export const userTable = sqliteTable("user", {
 	id: text()
 		.notNull()
 		.$defaultFn(() => createId()),
-	name: text().notNull(),
 	email: text().notNull().unique(),
+	name: text().notNull(),
 });

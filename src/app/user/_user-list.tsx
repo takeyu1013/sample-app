@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { listUser } from "@/lib/router";
 
 export const UserList = async () => {
@@ -14,6 +16,9 @@ export const UserList = async () => {
 					<p>
 						<strong>Email: </strong>
 						{email}
+					</p>
+					<p>
+						<Link href={`/user/${id}`}>Show this user</Link>
 					</p>
 				</div>
 			))}
