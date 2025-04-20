@@ -4,7 +4,12 @@ export default function Home() {
 	return (
 		<main>
 			<h1>Home</h1>
-			<Link href="/user">User list</Link>
+			<p>
+				<Link href="/user">User list</Link>
+			</p>
+			<p>
+				<Link href="/micropost">Micropost list</Link>
+			</p>
 		</main>
 	);
 }

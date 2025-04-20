@@ -2,13 +2,12 @@
 
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
-import { z } from "zod";
 
-import { createUser } from "@/lib/router";
+import { createUser, userSchema } from "@/lib/router";
 
 export const createUserAction = async (state: unknown, formData: FormData) => {
 	const submission = parseWithZod(formData, {
-		schema: z.object({ name: z.string(), email: z.string() }),
+		schema: userSchema.pick({ email: true, name: true }),
 	});
 	if (submission.status !== "success") {
 		return submission.reply();

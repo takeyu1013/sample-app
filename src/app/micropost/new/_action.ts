@@ -3,19 +3,18 @@
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 
-import { updateUser, userSchema } from "@/lib/router";
+import { createMicropost, micropostSchema } from "@/lib/router";
 
-export const updateUserAction = async (
-	id: string,
+export const createMicropostAction = async (
 	state: unknown,
 	formData: FormData,
 ) => {
 	const submission = parseWithZod(formData, {
-		schema: userSchema.pick({ email: true, name: true }),
+		schema: micropostSchema.pick({ content: true, userId: true }),
 	});
 	if (submission.status !== "success") {
 		return submission.reply();
 	}
-	await updateUser({ id, ...submission.value });
-	redirect(`/user/${id}`);
+	const { id } = await createMicropost(submission.value);
+	redirect(`/micropost/${id}`);
 };
