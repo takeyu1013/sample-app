@@ -25,12 +25,6 @@ export const createUser = os
 	})
 	.callable();
 
-export const listUser = os
-	.route({ method: "GET", path: "/user/list" })
-	.output(z.array(userSchema))
-	.handler(async () => await db.select().from(userTable))
-	.callable();
-
 export const readUser = os
 	.route({ method: "GET", path: "/user/{id}" })
 	.input(userSchema.pick({ id: true }))
@@ -46,4 +40,41 @@ export const readUser = os
 	})
 	.callable();
 
-export const router = { createUser, listUser, readUser };
+export const updateUser = os
+	.route({ method: "PUT", path: "/user/{id}", successStatus: 204 })
+	.input(userSchema)
+	.handler(async ({ input: { id, ...rest } }) => {
+		await db.update(userTable).set(rest).where(eq(userTable.id, id));
+	})
+	.callable();
+
+export const deleteUser = os
+	.route({
+		inputStructure: "detailed",
+		method: "DELETE",
+		path: "/user/{id}",
+		successStatus: 204,
+	})
+	.input(z.object({ params: userSchema.pick({ id: true }) }))
+	.handler(
+		async ({
+			input: {
+				params: { id },
+			},
+		}) => await db.delete(userTable).where(eq(userTable.id, id)),
+	)
+	.callable();
+
+export const listUser = os
+	.route({ method: "GET", path: "/user/list" })
+	.output(z.array(userSchema))
+	.handler(async () => await db.select().from(userTable))
+	.callable();
+
+export const router = {
+	createUser,
+	readUser,
+	updateUser,
+	deleteUser,
+	listUser,
+};

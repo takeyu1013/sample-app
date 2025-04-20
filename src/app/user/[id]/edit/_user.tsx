@@ -1,21 +1,10 @@
 import { readUser } from "@/lib/router";
 
+import { Form } from "./_form";
+
 export const User = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const { id } = await params;
 	const { email, name } = await readUser({ id });
 
-	return (
-		<div>
-			<div>
-				<p>
-					<strong>Name: </strong>
-					{name}
-				</p>
-				<p>
-					<strong>Email: </strong>
-					{email}
-				</p>
-			</div>
-		</div>
-	);
+	return <Form id={id} email={email} name={name} />;
 };
