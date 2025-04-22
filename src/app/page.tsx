@@ -10,6 +10,9 @@ export default function Home() {
 			<p>
 				<Link href="/micropost">Micropost list</Link>
 			</p>
+			<p>
+				<Link href="/api/spec/doc">API doc</Link>
+			</p>
 		</main>
 	);
 }
