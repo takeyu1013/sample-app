@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+import { fullTitle } from "@/lib/service";
+
 import "./global.css";
 
 export const metadata = {
-	title: "Sample App",
+	title: fullTitle(),
 } as const satisfies Metadata;
 
 export default function RootLayout({
