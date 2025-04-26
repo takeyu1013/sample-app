@@ -14,37 +14,39 @@ export const Footer = () => (
 			<Text c="dark.3" size="xs">
 				The Ruby on Rails Tutorial by Michael Hartl
 			</Text>
-			<Flex
-				columnGap="md"
-				component="ul"
-				direction={{ base: "column", sm: "row" }}
-				m={0}
-				p={0}
-				rowGap="xs"
-			>
-				{(
-					[
-						["About", "/about"],
-						["Contact", "/contact"],
-						["News", "#"],
-					] satisfies [string, ComponentProps<typeof Link>["href"]][]
-				).map(([name, href]) => (
-					<Box
-						component="li"
-						key={name}
-						style={{ listStyle: "none", lineHeight: "normal" }}
-					>
-						<Anchor
-							className={classes.footerAnchor}
-							component={Link}
-							href={href}
-							size="sm"
+			<Box component="nav">
+				<Flex
+					columnGap="md"
+					component="ul"
+					direction={{ base: "column", sm: "row" }}
+					m={0}
+					p={0}
+					rowGap="xs"
+				>
+					{(
+						[
+							["About", "/about"],
+							["Contact", "/contact"],
+							["News", "#"],
+						] satisfies [string, ComponentProps<typeof Link>["href"]][]
+					).map(([name, href]) => (
+						<Box
+							component="li"
+							key={name}
+							style={{ listStyle: "none", lineHeight: "normal" }}
 						>
-							{name}
-						</Anchor>
-					</Box>
-				))}
-			</Flex>
+							<Anchor
+								className={classes.footerAnchor}
+								component={Link}
+								href={href}
+								size="sm"
+							>
+								{name}
+							</Anchor>
+						</Box>
+					))}
+				</Flex>
+			</Box>
 		</Flex>
 	</AppShellFooter>
 );
