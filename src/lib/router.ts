@@ -5,6 +5,8 @@ import { z } from "zod";
 import { db } from "./db";
 import { micropostTable, userTable } from "./db/schema";
 
+const tags = ["Default"];
+
 export const userSchema = z.object({
 	id: z.string(),
 	email: z.string(),
@@ -12,7 +14,7 @@ export const userSchema = z.object({
 });
 
 export const readUser = os
-	.route({ method: "GET", path: "/user/{id}" })
+	.route({ method: "GET", path: "/user/{id}", tags })
 	.input(userSchema.pick({ id: true }))
 	.output(userSchema)
 	.handler(async ({ input: { id } }) => {
@@ -27,7 +29,7 @@ export const readUser = os
 	.callable();
 
 export const listUser = os
-	.route({ method: "GET", path: "/user/list" })
+	.route({ method: "GET", path: "/user/list", tags })
 	.output(z.array(userSchema))
 	.handler(async () => await db.select().from(userTable))
 	.callable();
@@ -39,7 +41,7 @@ export const micropostSchema = z.object({
 });
 
 export const createMicropost = os
-	.route({ method: "POST", path: "/micropost", successStatus: 201 })
+	.route({ method: "POST", path: "/micropost", successStatus: 201, tags })
 	.input(micropostSchema.pick({ content: true, userId: true }))
 	.output(micropostSchema.pick({ id: true }))
 	.handler(async ({ input }) => {
@@ -54,7 +56,7 @@ export const createMicropost = os
 	.callable();
 
 export const readMicropost = os
-	.route({ method: "GET", path: "/micropost/{id}" })
+	.route({ method: "GET", path: "/micropost/{id}", tags })
 	.input(micropostSchema.pick({ id: true }))
 	.output(micropostSchema)
 	.handler(async ({ input: { id } }) => {
@@ -69,7 +71,7 @@ export const readMicropost = os
 	.callable();
 
 export const updateMicropost = os
-	.route({ method: "PUT", path: "/micropost/{id}", successStatus: 204 })
+	.route({ method: "PUT", path: "/micropost/{id}", successStatus: 204, tags })
 	.input(micropostSchema)
 	.handler(async ({ input: { id, ...rest } }) => {
 		await db.update(micropostTable).set(rest).where(eq(micropostTable.id, id));
@@ -82,6 +84,7 @@ export const deleteMicropost = os
 		method: "DELETE",
 		path: "/micropost/{id}",
 		successStatus: 204,
+		tags,
 	})
 	.input(z.object({ params: micropostSchema.pick({ id: true }) }))
 	.handler(
@@ -94,7 +97,7 @@ export const deleteMicropost = os
 	.callable();
 
 export const listMicropost = os
-	.route({ method: "GET", path: "/micropost/list" })
+	.route({ method: "GET", path: "/micropost/list", tags })
 	.output(z.array(micropostSchema))
 	.handler(async () => await db.select().from(micropostTable))
 	.callable();
