@@ -1,10 +1,8 @@
-import { createId } from "@paralleldrive/cuid2";
+import { generateId } from "better-auth";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const userTable = sqliteTable("user", {
-	id: text()
-		.primaryKey()
-		.$defaultFn(() => createId()),
+	id: text().primaryKey(),
 	name: text("name").notNull(),
 	email: text("email").notNull().unique(),
 	emailVerified: integer("email_verified", { mode: "boolean" }).notNull(),
@@ -16,7 +14,7 @@ export const userTable = sqliteTable("user", {
 export const micropostTable = sqliteTable("micropost", {
 	id: text()
 		.primaryKey()
-		.$defaultFn(() => createId()),
+		.$defaultFn(() => generateId()),
 	content: text().notNull(),
 	userId: text("user_id")
 		.notNull()

@@ -2,7 +2,9 @@
 
 import { parseWithZod } from "@conform-to/zod";
 
+import { auth } from "@/lib/auth";
 import { userSchema } from "@/lib/router";
+import { redirect } from "next/navigation";
 
 export const createUserAction = async (state: unknown, formData: FormData) => {
 	const submission = parseWithZod(formData, {
@@ -11,6 +13,10 @@ export const createUserAction = async (state: unknown, formData: FormData) => {
 	if (submission.status !== "success") {
 		return submission.reply();
 	}
-	// const { id } = await createUser(submission.value);
-	// redirect(`/user/${id}`);
+	const {
+		user: { id },
+	} = await auth.api.signUpEmail({
+		body: { ...submission.value, password: "password" },
+	});
+	redirect(`/user/${id}`);
 };
