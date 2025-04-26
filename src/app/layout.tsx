@@ -3,10 +3,13 @@ import {
 	AppShell,
 	AppShellHeader,
 	AppShellMain,
+	Box,
 	ColorSchemeScript,
 	Container,
+	Divider,
 	Group,
 	MantineProvider,
+	Stack,
 	mantineHtmlProps,
 } from "@mantine/core";
 import "@mantine/core/styles.css";
@@ -16,6 +19,10 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { fullTitle } from "@/lib/service";
 
+import { FooterContent } from "./_footer-content";
+import { FooterMenu } from "./_footer-menu";
+import { Logo } from "./_logo";
+import { MobileMenu } from "./_mobile-menu";
 import classes from "./layout.module.css";
 
 export const metadata = {
@@ -25,6 +32,12 @@ export const metadata = {
 export default function RootLayout({
 	children,
 }: Readonly<{ children: ReactNode }>) {
+	const headerMenuList = [
+		["Home", "/"],
+		["Help", "#"],
+		["Log in", "#"],
+	] as const satisfies ComponentProps<typeof MobileMenu>["list"];
+
 	return (
 		<html lang="ja" {...mantineHtmlProps}>
 			<head>
@@ -34,45 +47,67 @@ export default function RootLayout({
 				<MantineProvider>
 					<AppShell header={{ height: 50, offset: true }}>
 						<AppShellHeader bg="dark">
+							<Group
+								h="100%"
+								hiddenFrom="sm"
+								justify="space-between"
+								p="sm"
+								style={{ flexWrap: "nowrap" }}
+							>
+								<Logo />
+								<MobileMenu list={headerMenuList} />
+							</Group>
 							<Container h="100%" size="lg">
-								<Group h="100%" justify="space-between">
-									<Anchor
-										c="white"
-										component={Link}
-										href="/"
-										style={{ fontSize: 23.8, fontWeight: 700 }}
-										underline="never"
-									>
-										SAMPLE APP
-									</Anchor>
-									<Group gap="xl">
-										{(
-											[
-												["Home", "/"],
-												["Help", "#"],
-												["Log in", "#"],
-											] satisfies [
-												string,
-												ComponentProps<typeof Link>["href"],
-											][]
-										).map(([name, href]) => (
-											<Anchor
-												className={classes.anchor}
-												component={Link}
-												key={name}
-												href={href}
-												size="sm"
-												underline="never"
-											>
-												{name}
-											</Anchor>
-										))}
-									</Group>
+								<Group
+									h="100%"
+									visibleFrom="sm"
+									justify="space-between"
+									style={{ flexWrap: "nowrap" }}
+								>
+									<Logo />
+									<Box component="nav">
+										<Group component="ul" gap="xl">
+											{headerMenuList.map(([name, href]) => (
+												<Box
+													component="li"
+													key={name}
+													style={{ listStyle: "none" }}
+												>
+													<Anchor
+														className={classes.headerAnchor}
+														component={Link}
+														href={href}
+														size="sm"
+														underline="never"
+													>
+														{name}
+													</Anchor>
+												</Box>
+											))}
+										</Group>
+									</Box>
 								</Group>
 							</Container>
 						</AppShellHeader>
 						<AppShellMain>
-							<Container size="lg">{children}</Container>
+							<Container size="lg">
+								<Stack gap="xl">
+									{children}
+									<Stack component="footer" gap={5}>
+										<Divider />
+										<Stack hiddenFrom="sm">
+											<FooterContent />
+											<FooterMenu />
+										</Stack>
+										<Group justify="space-between" visibleFrom="sm">
+											<FooterContent />
+											<Group>
+												<FooterMenu />
+											</Group>
+										</Group>
+									</Stack>
+								</Stack>
+							</Container>
 						</AppShellMain>
 					</AppShell>
 				</MantineProvider>

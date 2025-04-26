@@ -1,6 +1,13 @@
-.anchor {
+.headerAnchor {
 	color: var(--mantine-color-dark-1);
 	&:hover {
 		color: white;
+	}
+}
+
+.footerAnchor {
+	color: var(--mantine-color-dark-3);
+	&:hover {
+		color: var(--mantine-color-dark-4);
 	}
 }

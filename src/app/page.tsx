@@ -1,23 +1,40 @@
+import { Anchor, Button, Card, Center, Stack, Title } from "@mantine/core";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+	const title = "Welcome to the Sample App";
+
 	return (
-		<main>
-			<h1>Home</h1>
-			<p>
-				This is the home page for the{" "}
-				<a href="https://railstutorial.jp/">Ruby on Rails Tutorial</a> sample
-				application.
-			</p>
-			<p>
+		<Stack component="main" gap="xl" py="xs">
+			<Card bg="gray.2" p={48} radius="md">
+				<Center>
+					<Stack align="center" gap="lg">
+						<Title hiddenFrom="md" style={{ fontWeight: 500 }}>
+							{title}
+						</Title>
+						<Title visibleFrom="md" style={{ fontSize: 63, fontWeight: 500 }}>
+							{title}
+						</Title>
+						<Title order={2} size="h5" style={{ fontWeight: 500 }}>
+							This is the home page for the{" "}
+							<Anchor href="https://railstutorial.jp/">
+								Ruby on Rails Tutorial
+							</Anchor>{" "}
+							sample application.
+						</Title>
+						<Button radius="md" size="lg">
+							Sign up now!
+						</Button>
+					</Stack>
+				</Center>
+			</Card>
+			<Image alt="rails" height={70} width={200} src="rails.svg" />
+			<Stack>
 				<Link href="/user">User list</Link>
-			</p>
-			<p>
 				<Link href="/micropost">Micropost list</Link>
-			</p>
-			<p>
 				<Link href="/api/spec/doc">API doc</Link>
-			</p>
-		</main>
+			</Stack>
+		</Stack>
 	);
 }
