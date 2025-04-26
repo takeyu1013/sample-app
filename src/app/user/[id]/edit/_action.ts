@@ -1,9 +1,8 @@
 "use server";
 
 import { parseWithZod } from "@conform-to/zod";
-import { redirect } from "next/navigation";
 
-import { updateUser, userSchema } from "@/lib/router";
+import { userSchema } from "@/lib/router";
 
 export const updateUserAction = async (
 	id: string,
@@ -16,6 +15,6 @@ export const updateUserAction = async (
 	if (submission.status !== "success") {
 		return submission.reply();
 	}
-	await updateUser({ id, ...submission.value });
-	redirect(`/user/${id}`);
+	// await updateUser({ id, ...submission.value });
+	// redirect(`/user/${id}`);
 };
