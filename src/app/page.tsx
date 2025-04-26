@@ -23,7 +23,7 @@ export default function Home() {
 							</Anchor>{" "}
 							sample application.
 						</Title>
-						<Button radius="md" size="lg">
+						<Button component={Link} href="/signup" radius="md" size="lg">
 							Sign up now!
 						</Button>
 					</Stack>
