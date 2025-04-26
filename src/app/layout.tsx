@@ -16,7 +16,7 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { fullTitle } from "@/lib/service";
 
-import classes from "./_layout.module.css";
+import classes from "./layout.module.css";
 
 export const metadata = {
 	title: fullTitle(),
