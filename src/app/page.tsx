@@ -6,7 +6,7 @@ export default function Home() {
 	const title = "Welcome to the Sample App";
 
 	return (
-		<Stack component="main" gap="xl" py="xs">
+		<Stack gap="xl" py="xs">
 			<Card bg="gray.2" p={48} radius="md">
 				<Center>
 					<Stack align="center" gap="lg">
