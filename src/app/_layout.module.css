@@ -1,0 +1,6 @@
+.anchor {
+	color: var(--mantine-color-dark-1);
+	&:hover {
+		color: white;
+	}
+}
