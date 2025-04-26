@@ -9,7 +9,7 @@ import classes from "./layout.module.css";
 export const Header = () => {
 	const headerMenuList = [
 		["Home", "/"],
-		["Help", "#"],
+		["Help", "/help"],
 		["Log in", "#"],
 	] as const satisfies ComponentProps<typeof MobileMenu>["list"];
 

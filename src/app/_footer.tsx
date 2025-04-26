@@ -24,8 +24,8 @@ export const Footer = () => (
 			>
 				{(
 					[
-						["About", "#"],
-						["Contact", "#"],
+						["About", "/about"],
+						["Contact", "/contact"],
 						["News", "#"],
 					] satisfies [string, ComponentProps<typeof Link>["href"]][]
 				).map(([name, href]) => (
