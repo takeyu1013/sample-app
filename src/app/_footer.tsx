@@ -27,7 +27,6 @@ export const Footer = () => (
 						[
 							["About", "/about"],
 							["Contact", "/contact"],
-							["News", "#"],
 						] satisfies [string, ComponentProps<typeof Link>["href"]][]
 					).map(([name, href]) => (
 						<Box
@@ -45,6 +44,13 @@ export const Footer = () => (
 							</Anchor>
 						</Box>
 					))}
+					<Anchor
+						className={classes.footerAnchor}
+						href="https://news.railstutorial.org/"
+						size="sm"
+					>
+						News
+					</Anchor>
 				</Flex>
 			</Box>
 		</Flex>
