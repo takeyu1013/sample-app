@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { Box, Stack } from "@mantine/core";
 import { Form } from "./_form";
 import { User } from "./_user";
 import { UserLink } from "./_user-link";
@@ -11,10 +12,12 @@ export default function Page({
 	params: Promise<{ id: string }>;
 }) {
 	return (
-		<main>
-			<Suspense>
-				<User params={params} />
-			</Suspense>
+		<Stack component="aside" pt={30}>
+			<Box component="section">
+				<Suspense>
+					<User params={params} />
+				</Suspense>
+			</Box>
 			<div>
 				<Suspense>
 					<UserLink params={params} />
@@ -24,6 +27,6 @@ export default function Page({
 			<Suspense>
 				<Form params={params} />
 			</Suspense>
-		</main>
+		</Stack>
 	);
 }

@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
 		dynamicIO: true,
 		ppr: true,
 	},
+	images: {
+		domains: ["secure.gravatar.com"],
+	},
 };
 
 export default nextConfig;
