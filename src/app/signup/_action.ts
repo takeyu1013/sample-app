@@ -8,12 +8,21 @@ import { auth } from "@/lib/auth";
 
 export const createUserAction = async (state: unknown, formData: FormData) => {
 	const submission = parseWithZod(formData, {
-		schema: z.object({
-			email: z.string().email(),
-			name: z.string(),
-			password: z.string(),
-			passwordConfirmation: z.string(),
-		}),
+		schema: z
+			.object({
+				email: z.string().email(),
+				name: z.string(),
+				password: z.string(),
+				passwordConfirmation: z.string(),
+			})
+			.refine(
+				({ password, passwordConfirmation }) =>
+					password === passwordConfirmation,
+				{
+					message: "Password confirmation doesn't match Password",
+					path: ["passwordConfirmation"],
+				},
+			),
 	});
 	if (submission.status !== "success") {
 		return submission.reply();

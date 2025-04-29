@@ -10,7 +10,7 @@ export const Header = () => {
 	const headerMenuList = [
 		["Home", "/"],
 		["Help", "/help"],
-		["Log in", "#"],
+		["Log in", "/login"],
 	] as const satisfies ComponentProps<typeof MobileMenu>["list"];
 
 	return (

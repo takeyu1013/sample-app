@@ -4,19 +4,17 @@ import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { Button, Stack, TextInput } from "@mantine/core";
 import { useActionState, useEffect } from "react";
 
-import { createUserAction } from "./_action";
+import { logInAction } from "./_action";
 
 export const Form = () => {
 	const [lastResult, action, isPending] = useActionState(
-		createUserAction,
+		logInAction,
 		undefined,
 	);
-	const [form, { email, name, password, passwordConfirmation }] = useForm({
+	const [form, { email, password }] = useForm({
 		defaultValue: {
 			email: "",
-			name: "",
 			password: "",
-			passwordConfirmation: "",
 		},
 		lastResult,
 	});
@@ -41,11 +39,6 @@ export const Form = () => {
 			)}
 		>
 			<TextInput
-				{...getInputProps(name, { type: "text" })}
-				error={name.errors?.toString()}
-				label="Name"
-			/>
-			<TextInput
 				{...getInputProps(email, { type: "text" })}
 				error={email.errors?.toString()}
 				label="Email"
@@ -55,13 +48,8 @@ export const Form = () => {
 				error={password.errors?.toString()}
 				label="Password"
 			/>
-			<TextInput
-				{...getInputProps(passwordConfirmation, { type: "password" })}
-				error={passwordConfirmation.errors?.toString()}
-				label="Confirmation"
-			/>
 			<Button disabled={isPending} type="submit">
-				Create My Account
+				Log in
 			</Button>
 		</Stack>
 	);
