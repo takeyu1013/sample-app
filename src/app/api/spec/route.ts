@@ -22,10 +22,10 @@ export async function GET(request: Request) {
 
 	const mergeResult = merge([
 		{
-			oas: spec as unknown as Swagger.SwaggerV3,
+			oas: spec as Swagger.SwaggerV3,
 		},
 		{
-			oas: authSchema as unknown as Swagger.SwaggerV3,
+			oas: authSchema as Swagger.SwaggerV3,
 			pathModification: { prepend: "/auth" },
 		},
 	]);
