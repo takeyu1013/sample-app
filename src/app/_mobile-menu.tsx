@@ -18,10 +18,15 @@ export const MobileMenu = ({
 				withCloseButton={false}
 				size="xs"
 			>
-				<Stack component="ul">
+				<Stack component="ul" m={0} p={0}>
 					{list.map(([name, href]) => (
 						<Box component="li" key={name} style={{ listStyle: "none" }}>
-							<Anchor component={Link} href={href} underline="never">
+							<Anchor
+								component={Link}
+								href={href}
+								onClick={toggle}
+								underline="never"
+							>
 								{name}
 							</Anchor>
 						</Box>
