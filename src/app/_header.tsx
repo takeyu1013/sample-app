@@ -6,20 +6,23 @@ import {
 	Container,
 	Flex,
 	Group,
+	Menu,
+	MenuDropdown,
+	MenuItem,
+	MenuTarget,
 } from "@mantine/core";
 import Link from "next/link";
 import { type ComponentProps, Suspense } from "react";
 
 import { Logo } from "./_logo";
-import type { MobileMenu } from "./_mobile-menu";
 import { UserMenu } from "./_user-menu";
 import classes from "./layout.module.css";
 
 export const Header = () => {
-	const headerMenuList = [
+	const staticMenuList = [
 		["Home", "/"],
 		["Help", "/help"],
-	] as const satisfies ComponentProps<typeof MobileMenu>["list"];
+	] as const satisfies [string, ComponentProps<typeof Link>["href"]][];
 
 	return (
 		<AppShellHeader bg="dark">
@@ -27,9 +30,54 @@ export const Header = () => {
 				<Flex align="center" h="100%" rowGap="xs" justify="space-between">
 					<Logo />
 					<Box component="nav">
-						<Burger color="white" hiddenFrom="sm" size="sm" />
+						<Menu width="100%">
+							<MenuTarget>
+								<Burger color="white" hiddenFrom="sm" size="sm" />
+							</MenuTarget>
+							<MenuDropdown
+								px="md"
+								py="xs"
+								bg="dark"
+								left={0}
+								style={{
+									border: "none",
+									borderTop: "1px solid var(--mantine-color-dark-2)",
+									borderRadius: 0,
+								}}
+							>
+								{staticMenuList.map(([name, href]) => (
+									<MenuItem
+										component="li"
+										key={name}
+										px={0}
+										py="xs"
+										style={{ listStyle: "none" }}
+									>
+										<Anchor
+											className={classes.headerAnchor}
+											component={Link}
+											href={href}
+											size="sm"
+											underline="never"
+										>
+											{name}
+										</Anchor>
+									</MenuItem>
+								))}
+								<MenuItem
+									component="li"
+									px={0}
+									py="xs"
+									style={{ listStyle: "none" }}
+								>
+									<Suspense>
+										<UserMenu />
+									</Suspense>
+								</MenuItem>
+							</MenuDropdown>
+						</Menu>
 						<Group component="ul" gap="xl" m={0} p={0} visibleFrom="sm">
-							{headerMenuList.map(([name, href]) => (
+							{staticMenuList.map(([name, href]) => (
 								<Box component="li" key={name} style={{ listStyle: "none" }}>
 									<Anchor
 										className={classes.headerAnchor}
@@ -42,9 +90,11 @@ export const Header = () => {
 									</Anchor>
 								</Box>
 							))}
-							<Suspense>
-								<UserMenu />
-							</Suspense>
+							<Box component="li" style={{ listStyle: "none" }}>
+								<Suspense>
+									<UserMenu />
+								</Suspense>
+							</Box>
 						</Group>
 					</Box>
 				</Flex>

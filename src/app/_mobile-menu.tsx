@@ -1,38 +1,41 @@
-"use client";
-
-import { Anchor, Box, Burger, Drawer, Stack } from "@mantine/core";
+import { Anchor, Box, Button } from "@mantine/core";
+import { headers } from "next/headers";
 import Link from "next/link";
-import { type ComponentProps, useReducer } from "react";
 
-export const MobileMenu = ({
-	list,
-}: { list: [string, ComponentProps<typeof Link>["href"]][] }) => {
-	const [opened, toggle] = useReducer((state) => !state, false);
+import { auth } from "@/lib/auth";
+
+import classes from "./layout.module.css";
+
+export const UserMenu = async () => {
+	const session = await auth.api.getSession({ headers: await headers() });
 
 	return (
-		<>
-			<Burger color="white" opened={opened} onClick={toggle} size="sm" />
-			<Drawer
-				opened={opened}
-				onClose={toggle}
-				withCloseButton={false}
-				size="xs"
-			>
-				<Stack component="ul" m={0} p={0}>
-					{list.map(([name, href]) => (
-						<Box component="li" key={name} style={{ listStyle: "none" }}>
-							<Anchor
-								component={Link}
-								href={href}
-								onClick={toggle}
-								underline="never"
-							>
-								{name}
-							</Anchor>
-						</Box>
-					))}
-				</Stack>
-			</Drawer>
-		</>
+		<Box component="li" style={{ listStyle: "none" }}>
+			{session ? (
+				<Button
+					className={classes.headerAnchor}
+					fw={400}
+					onClick={async () => {
+						"use server";
+						await auth.api.signOut({ headers: await headers() });
+					}}
+					p={0}
+					size="sm"
+					variant="transparent"
+				>
+					Log out
+				</Button>
+			) : (
+				<Anchor
+					className={classes.headerAnchor}
+					component={Link}
+					href="/login"
+					size="sm"
+					underline="never"
+				>
+					Log in
+				</Anchor>
+			)}
+		</Box>
 	);
 };
