@@ -12,11 +12,15 @@ export const UserMenu = async () => {
 	return session ? (
 		<Button
 			className={classes.headerAnchor}
+			display="block"
 			fw={400}
 			onClick={async () => {
 				"use server";
 				await auth.api.signOut({ headers: await headers() });
 			}}
+			bd="none"
+			h="auto"
+			lh="sm"
 			p={0}
 			size="sm"
 			variant="transparent"
@@ -27,6 +31,7 @@ export const UserMenu = async () => {
 		<Anchor
 			className={classes.headerAnchor}
 			component={Link}
+			display="block"
 			href="/login"
 			size="sm"
 			underline="never"

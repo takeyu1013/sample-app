@@ -56,6 +56,7 @@ export const Header = () => {
 										<Anchor
 											className={classes.headerAnchor}
 											component={Link}
+											display="block"
 											href={href}
 											size="sm"
 											underline="never"
