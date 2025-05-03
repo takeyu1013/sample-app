@@ -36,7 +36,6 @@ export const Header = () => {
 								<Burger color="white" hiddenFrom="sm" size="sm" />
 							</MenuTarget>
 							<MenuDropdown
-								className={classes.menuItem}
 								px="md"
 								py="xs"
 								bg="dark"
@@ -49,6 +48,7 @@ export const Header = () => {
 							>
 								{staticMenuList.map(([name, href]) => (
 									<MenuItem
+										className={classes.menuItem}
 										component="li"
 										key={name}
 										px={0}
