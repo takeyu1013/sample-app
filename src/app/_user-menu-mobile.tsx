@@ -45,7 +45,7 @@ export const UserMenuMobile = async () => {
 				py="xs"
 				style={{ listStyle: "none" }}
 			>
-				<Menu position="bottom-end" width={160}>
+				<Menu position="bottom-start" width={160}>
 					<MenuTarget>
 						<Button
 							bd="none"
@@ -55,6 +55,10 @@ export const UserMenuMobile = async () => {
 							h="auto"
 							lh="sm"
 							p={0}
+							w="100%"
+							styles={{
+								inner: { justifyContent: "flex-start" },
+							}}
 							variant="transparent"
 						>
 							Account
