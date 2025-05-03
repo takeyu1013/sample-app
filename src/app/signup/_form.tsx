@@ -44,21 +44,25 @@ export const Form = () => {
 				{...getInputProps(name, { type: "text" })}
 				error={name.errors?.toString()}
 				label="Name"
+				styles={{ input: { fontSize: 16 } }}
 			/>
 			<TextInput
 				{...getInputProps(email, { type: "text" })}
 				error={email.errors?.toString()}
 				label="Email"
+				styles={{ input: { fontSize: 16 } }}
 			/>
 			<TextInput
 				{...getInputProps(password, { type: "password" })}
 				error={password.errors?.toString()}
 				label="Password"
+				styles={{ input: { fontSize: 16 } }}
 			/>
 			<TextInput
 				{...getInputProps(passwordConfirmation, { type: "password" })}
 				error={passwordConfirmation.errors?.toString()}
 				label="Confirmation"
+				styles={{ input: { fontSize: 16 } }}
 			/>
 			<Button disabled={isPending} type="submit">
 				Create My Account
