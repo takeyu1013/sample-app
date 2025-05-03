@@ -31,7 +31,7 @@ export default function RootLayout({
 			<body>
 				<MantineProvider theme={{ activeClassName: "" }}>
 					<AppShell
-						header={{ height: 50, offset: true }}
+						header={{ height: 50 }}
 						styles={{
 							footer: { position: "static" },
 							main: { minHeight: "100%" },
