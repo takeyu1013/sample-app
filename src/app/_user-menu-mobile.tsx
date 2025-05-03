@@ -85,7 +85,13 @@ export const UserMenuMobile = async () => {
 			</MenuItem>
 		</>
 	) : (
-		<MenuItem component="li" px={0} py="xs" style={{ listStyle: "none" }}>
+		<MenuItem
+			component="li"
+			className={classes.menuItem}
+			px={0}
+			py="xs"
+			style={{ listStyle: "none" }}
+		>
 			<Anchor
 				className={classes.headerAnchor}
 				component={Link}
