@@ -1,6 +1,5 @@
 import {
 	Anchor,
-	Box,
 	Button,
 	Menu,
 	MenuDivider,
@@ -15,12 +14,18 @@ import { auth } from "@/lib/auth";
 
 import classes from "./layout.module.css";
 
-export const UserMenu = async () => {
+export const UserMenuMobile = async () => {
 	const session = await auth.api.getSession({ headers: await headers() });
 
 	return session ? (
 		<>
-			<Box component="li" style={{ listStyle: "none" }}>
+			<MenuItem
+				className={classes.menuItem}
+				component="li"
+				px={0}
+				py="xs"
+				style={{ listStyle: "none" }}
+			>
 				<Anchor
 					className={classes.headerAnchor}
 					component={Link}
@@ -31,9 +36,16 @@ export const UserMenu = async () => {
 				>
 					User
 				</Anchor>
-			</Box>
-			<Box component="li" style={{ listStyle: "none" }}>
-				<Menu offset={14} position="bottom-end" width={160}>
+			</MenuItem>
+			<MenuItem
+				component="li"
+				className={classes.menuItem}
+				closeMenuOnClick={false}
+				px={0}
+				py="xs"
+				style={{ listStyle: "none" }}
+			>
+				<Menu position="bottom-end" width={160}>
 					<MenuTarget>
 						<Button
 							bd="none"
@@ -66,10 +78,10 @@ export const UserMenu = async () => {
 						</MenuItem>
 					</MenuDropdown>
 				</Menu>
-			</Box>
+			</MenuItem>
 		</>
 	) : (
-		<Box component="li" style={{ listStyle: "none" }}>
+		<MenuItem component="li" px={0} py="xs" style={{ listStyle: "none" }}>
 			<Anchor
 				className={classes.headerAnchor}
 				component={Link}
@@ -80,6 +92,6 @@ export const UserMenu = async () => {
 			>
 				Log in
 			</Anchor>
-		</Box>
+		</MenuItem>
 	);
 };

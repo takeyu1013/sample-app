@@ -16,6 +16,7 @@ import { type ComponentProps, Suspense } from "react";
 
 import { Logo } from "./_logo";
 import { UserMenu } from "./_user-menu";
+import { UserMenuMobile } from "./_user-menu-mobile";
 import classes from "./layout.module.css";
 
 export const Header = () => {
@@ -35,6 +36,7 @@ export const Header = () => {
 								<Burger color="white" hiddenFrom="sm" size="sm" />
 							</MenuTarget>
 							<MenuDropdown
+								className={classes.menuItem}
 								px="md"
 								py="xs"
 								bg="dark"
@@ -65,16 +67,9 @@ export const Header = () => {
 										</Anchor>
 									</MenuItem>
 								))}
-								<MenuItem
-									component="li"
-									px={0}
-									py="xs"
-									style={{ listStyle: "none" }}
-								>
-									<Suspense>
-										<UserMenu />
-									</Suspense>
-								</MenuItem>
+								<Suspense>
+									<UserMenuMobile />
+								</Suspense>
 							</MenuDropdown>
 						</Menu>
 						<Group component="ul" gap="xl" m={0} p={0} visibleFrom="sm">
@@ -91,11 +86,9 @@ export const Header = () => {
 									</Anchor>
 								</Box>
 							))}
-							<Box component="li" style={{ listStyle: "none" }}>
-								<Suspense>
-									<UserMenu />
-								</Suspense>
-							</Box>
+							<Suspense>
+								<UserMenu />
+							</Suspense>
 						</Group>
 					</Box>
 				</Flex>
