@@ -7,7 +7,7 @@
         "@conform-to/react": "^1.4.0",
         "@conform-to/zod": "^1.4.0",
         "@libsql/client": "^0.15.4",
-        "@mantine/core": "^7.17.5",
+        "@mantine/core": "^7.17.7",
         "@next/env": "^15.3.1",
         "@orpc/client": "^1.1.1",
         "@orpc/openapi": "^1.1.1",
@@ -201,7 +201,7 @@
 
     "@libsql/win32-x64-msvc": ["@libsql/win32-x64-msvc@0.5.7", "", { "os": "win32", "cpu": "x64" }, "sha512-66c5bN2UF6rnuvzxgRLRkrAXMlv2aNYivPjMa175M0IVbFB3XQl1joOL2hO4/HxijL5xHf7xYJxs7X6HvpiG7Q=="],
 
-    "@mantine/core": ["@mantine/core@7.17.5", "", { "dependencies": { "@floating-ui/react": "^0.26.28", "clsx": "^2.1.1", "react-number-format": "^5.4.3", "react-remove-scroll": "^2.6.2", "react-textarea-autosize": "8.5.9", "type-fest": "^4.27.0" }, "peerDependencies": { "@mantine/hooks": "7.17.5", "react": "^18.x || ^19.x", "react-dom": "^18.x || ^19.x" } }, "sha512-66g/lr281cDPfucjtPw8gFo/yNS9G5iSKqysvPGuDpUBG2bEw8FsJMIsU0bMXtravToIpa3vJRrFUuPndPGnpQ=="],
+    "@mantine/core": ["@mantine/core@7.17.7", "", { "dependencies": { "@floating-ui/react": "^0.26.28", "clsx": "^2.1.1", "react-number-format": "^5.4.3", "react-remove-scroll": "^2.6.2", "react-textarea-autosize": "8.5.9", "type-fest": "^4.27.0" }, "peerDependencies": { "@mantine/hooks": "7.17.7", "react": "^18.x || ^19.x", "react-dom": "^18.x || ^19.x" } }, "sha512-JMyV4/jPATXxmE31g8TJxsrH7XvdrA5pwT4gg25zBl1KE5vLBpBLLjsHG728+bDKuf+bDV+8lw+1kqgW7FcplQ=="],
 
     "@mantine/hooks": ["@mantine/hooks@7.17.4", "", { "peerDependencies": { "react": "^18.x || ^19.x" } }, "sha512-PBcJxDAfGm8k1/JJmaDcxzRVQ3JSE1iXGktbgGz+qEOJmCxwbbAYe+CtGFFgi1xX2bPZ+7dtRr/+XFhnKtt/aw=="],
 
