@@ -1,9 +1,10 @@
 "use client";
 
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
-import { Button, Stack, TextInput } from "@mantine/core";
-import { useActionState, useEffect } from "react";
+import { Alert, Button, Stack, TextInput } from "@mantine/core";
+import { useActionState } from "react";
 
+import { usePreventDefault } from "@/lib/hook";
 import { logInAction } from "./_action";
 
 export const Form = () => {
@@ -18,19 +19,8 @@ export const Form = () => {
 		},
 		lastResult,
 	});
-
-	// https://github.com/edmundhung/conform/issues/681#issuecomment-2174388025
-	useEffect(() => {
-		const preventDefault = (event: Event) => {
-			if (event.target === document.forms.namedItem(form.id)) {
-				event.preventDefault();
-			}
-		};
-		document.addEventListener("reset", preventDefault, true);
-		return () => {
-			document.removeEventListener("reset", preventDefault, true);
-		};
-	}, [form.id]);
+	usePreventDefault(form.id);
+	const errorResult = form.errors?.at(0);
 
 	return (
 		<Stack
@@ -38,6 +28,7 @@ export const Form = () => {
 				<form {...props} {...getFormProps(form)} action={action} />
 			)}
 		>
+			{errorResult && <Alert color="red">{errorResult}</Alert>}
 			<TextInput
 				{...getInputProps(email, { type: "text" })}
 				error={email.errors?.toString()}

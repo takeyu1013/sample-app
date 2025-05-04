@@ -1,6 +1,8 @@
 "use server";
 
 import { parseWithZod } from "@conform-to/zod";
+import { APIError } from "better-auth/api";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -12,7 +14,7 @@ export const createUserAction = async (state: unknown, formData: FormData) => {
 			.object({
 				email: z.string().email(),
 				name: z.string(),
-				password: z.string(),
+				password: z.string().min(8).max(32),
 				passwordConfirmation: z.string(),
 			})
 			.refine(
@@ -27,10 +29,24 @@ export const createUserAction = async (state: unknown, formData: FormData) => {
 	if (submission.status !== "success") {
 		return submission.reply();
 	}
-	const {
-		user: { id },
-	} = await auth.api.signUpEmail({
-		body: submission.value,
-	});
-	redirect(`/user/${id}`);
+	try {
+		const {
+			user: { id },
+		} = await auth.api.signUpEmail({
+			body: submission.value,
+		});
+		redirect(`/user/${id}`);
+	} catch (error) {
+		if (isRedirectError(error)) {
+			throw error;
+		}
+		if (error instanceof APIError) {
+			return submission.reply({
+				formErrors: [error.message],
+			});
+		}
+		return submission.reply({
+			formErrors: [`${error}`],
+		});
+	}
 };
