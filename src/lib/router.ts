@@ -1,7 +1,9 @@
 import { ORPCError, os } from "@orpc/server";
 import { count, eq } from "drizzle-orm";
+import { headers } from "next/headers";
 import { z } from "zod";
 
+import { auth } from "./auth";
 import { db } from "./db";
 import { micropostTable, userTable } from "./db/schema";
 
@@ -14,22 +16,35 @@ export const userSchema = z.object({
 	name: z.string(),
 });
 
-export const readUser = os
+const authBase = os.errors({ UNAUTHORIZED: {} }).use(
+	os.middleware(async ({ next }) => {
+		const result = await auth.api.getSession({ headers: await headers() });
+		if (!result) {
+			throw new ORPCError("UNAUTHORIZED");
+		}
+		return next({ context: result });
+	}),
+);
+
+export const readUser = authBase
 	.route({ method: "GET", path: "/user/{id}", tags })
+	.errors({
+		NOT_FOUND: {},
+	})
 	.input(userSchema.pick({ id: true }))
 	.output(userSchema)
-	.handler(async ({ input: { id } }) => {
+	.handler(async ({ errors: { NOT_FOUND }, input: { id } }) => {
 		const result = (
 			await db.select().from(userTable).where(eq(userTable.id, id))
 		).at(0);
 		if (!result) {
-			throw new ORPCError("NOT_FOUND");
+			throw NOT_FOUND;
 		}
 		return result;
 	})
 	.callable();
 
-export const listUser = os
+export const listUser = authBase
 	.route({ method: "GET", path: "/user/list", tags })
 	.input(z.object({ page: z.number().optional() }).optional().default({}))
 	.output(z.object({ list: z.array(userSchema), count: z.number() }))

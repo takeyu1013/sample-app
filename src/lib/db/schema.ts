@@ -9,6 +9,10 @@ export const userTable = sqliteTable("user", {
 	image: text("image"),
 	createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 	updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+	role: text("role"),
+	banned: integer("banned", { mode: "boolean" }),
+	banReason: text("ban_reason"),
+	banExpires: integer("ban_expires", { mode: "timestamp" }),
 });
 
 export const micropostTable = sqliteTable("micropost", {
@@ -32,6 +36,7 @@ export const session = sqliteTable("session", {
 	userId: text("user_id")
 		.notNull()
 		.references(() => userTable.id, { onDelete: "cascade" }),
+	impersonatedBy: text("impersonated_by"),
 });
 
 export const account = sqliteTable("account", {
