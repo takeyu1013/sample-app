@@ -2,7 +2,7 @@ import { Anchor, AppShellFooter, Box, Flex, Text } from "@mantine/core";
 import Link from "next/link";
 import type { ComponentProps } from "react";
 
-import classes from "./layout.module.css";
+import classes from "./footer.module.css";
 
 export const Footer = () => (
 	<AppShellFooter py={5}>

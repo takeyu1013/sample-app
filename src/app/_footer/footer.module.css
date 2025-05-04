@@ -1,0 +1,6 @@
+.footerAnchor {
+	color: var(--mantine-color-dark-3);
+	&:hover {
+		color: var(--mantine-color-dark-4);
+	}
+}

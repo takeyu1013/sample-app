@@ -1,5 +1,4 @@
 import {
-	Anchor,
 	AppShellHeader,
 	Box,
 	Burger,
@@ -10,16 +9,17 @@ import {
 	MenuItem,
 	MenuTarget,
 } from "@mantine/core";
-import Link from "next/link";
+import type Link from "next/link";
 import { type ComponentProps, Suspense } from "react";
 
+import { CustomLink } from "./_custom-link";
 import { Logo } from "./_logo";
 import { UserMenu } from "./_user-menu";
-import { UserMenuMobile } from "./_user-menu-mobile";
-import classes from "./layout.module.css";
+import { UserNav } from "./_user-nav";
+import classes from "./header.module.css";
 
 export const Header = () => {
-	const staticMenuList = [
+	const staticNavItemList = [
 		["Home", "/"],
 		["Help", "/help"],
 	] as const satisfies [string, ComponentProps<typeof Link>["href"]][];
@@ -48,7 +48,7 @@ export const Header = () => {
 										borderRadius: 0,
 									}}
 								>
-									{staticMenuList.map(([name, href]) => (
+									{staticNavItemList.map(([name, href]) => (
 										<MenuItem
 											className={classes.menuItem}
 											component="li"
@@ -57,40 +57,23 @@ export const Header = () => {
 											py="xs"
 											style={{ listStyle: "none" }}
 										>
-											<Anchor
-												className={classes.headerAnchor}
-												component={Link}
-												display="block"
-												href={href}
-												size="sm"
-												underline="never"
-											>
-												{name}
-											</Anchor>
+											<CustomLink href={href}>{name}</CustomLink>
 										</MenuItem>
 									))}
 									<Suspense>
-										<UserMenuMobile />
+										<UserMenu />
 									</Suspense>
 								</MenuDropdown>
 							</Menu>
 						</Box>
 						<Group component="ul" gap="xl" m={0} p={0} visibleFrom="sm">
-							{staticMenuList.map(([name, href]) => (
+							{staticNavItemList.map(([name, href]) => (
 								<Box component="li" key={name} style={{ listStyle: "none" }}>
-									<Anchor
-										className={classes.headerAnchor}
-										component={Link}
-										href={href}
-										size="sm"
-										underline="never"
-									>
-										{name}
-									</Anchor>
+									<CustomLink href={href}>{name}</CustomLink>
 								</Box>
 							))}
 							<Suspense>
-								<UserMenu />
+								<UserNav />
 							</Suspense>
 						</Group>
 					</Box>
