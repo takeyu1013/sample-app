@@ -30,8 +30,7 @@ export const updateUserAction = async (state: unknown, formData: FormData) => {
 	}
 
 	const headers = await nextHeaders();
-	const { changeEmail, forgetPassword, getSession, resetPassword, updateUser } =
-		auth.api;
+	const { changeEmail, getSession, updateUser } = auth.api;
 	const session = await getSession({ headers });
 	if (!session) {
 		return submission.reply();
