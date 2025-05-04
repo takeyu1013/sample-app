@@ -12,6 +12,16 @@ const openAPIGenerator = new OpenAPIGenerator({
 
 export async function GET(request: Request) {
 	const spec = await openAPIGenerator.generate(router, {
+		// components: {
+		// 	securitySchemes: {
+		// 		apiKeyCookie: {
+		// 			type: "apiKey",
+		// 			in: "cookie",
+		// 			name: "apiKeyCookie",
+		// 			description: "API Key authentication via cookie",
+		// 		},
+		// 	},
+		// },
 		info: {
 			title: "Sample App API",
 			version: "1.0.0",
