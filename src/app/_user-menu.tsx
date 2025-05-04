@@ -33,7 +33,7 @@ export const UserMenu = async () => {
 				</Anchor>
 			</Box>
 			<Box component="li" style={{ listStyle: "none" }}>
-				<Menu offset={14} position="bottom-end" width={160}>
+				<Menu offset={16} position="bottom-end" width={160}>
 					<MenuTarget>
 						<Button
 							bd="none"
@@ -52,7 +52,7 @@ export const UserMenu = async () => {
 						<MenuItem component={Link} href={`/user/${session.user.id}`}>
 							Profile
 						</MenuItem>
-						<MenuItem component={Link} href="#">
+						<MenuItem component={Link} href={`/user/${session.user.id}/edit`}>
 							Settings
 						</MenuItem>
 						<MenuDivider />

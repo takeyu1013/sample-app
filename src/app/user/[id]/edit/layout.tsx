@@ -4,7 +4,7 @@ import type { PropsWithChildren } from "react";
 import { PageLayout } from "@/component/page-layout";
 import { fullTitle } from "@/lib/service";
 
-const TITLE = "Contact" as const;
+const TITLE = "Update your profile" as const;
 
 export const metadata = {
 	title: fullTitle(TITLE),

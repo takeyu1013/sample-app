@@ -15,4 +15,5 @@ export const auth = betterAuth({
 		enabled: true,
 	},
 	plugins: [nextCookies(), openAPI()],
+	user: { changeEmail: { enabled: true } },
 });

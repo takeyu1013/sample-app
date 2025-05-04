@@ -1,43 +1,65 @@
 "use client";
 
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
+import { Button, Stack, TextInput } from "@mantine/core";
 import { useActionState } from "react";
+
+import { usePreventDefault } from "@/lib/hook";
 
 import { updateUserAction } from "./_action";
 
 export const Form = ({
-	id,
 	email: defaultEmail,
 	name: defaultName,
-}: { id: string; email: string; name: string }) => {
+}: { email: string; name: string }) => {
 	const [lastResult, action, isPending] = useActionState(
-		updateUserAction.bind(undefined, id),
+		updateUserAction,
 		undefined,
 	);
-	const [form, { email, name }] = useForm({
-		defaultValue: { email: defaultEmail, name: defaultName },
+	const [form, { email, name, password, passwordConfirmation }] = useForm({
+		defaultValue: {
+			email: defaultEmail,
+			name: defaultName,
+			password: "",
+			passwordConfirmation: "",
+		},
 		lastResult,
 	});
+	usePreventDefault(form.id);
 
 	return (
-		<form {...getFormProps(form)} action={action}>
-			<div>
-				<label htmlFor="name" style={{ display: "block" }}>
-					Name
-				</label>
-				<input {...getInputProps(name, { type: "text" })} />
-			</div>
-			<div>
-				<label htmlFor="email" style={{ display: "block" }}>
-					Email
-				</label>
-				<input {...getInputProps(email, { type: "email" })} />
-			</div>
-			<div>
-				<button disabled={isPending} type="submit">
-					Update User
-				</button>
-			</div>
-		</form>
+		<Stack
+			renderRoot={(props) => (
+				<form {...props} {...getFormProps(form)} action={action} />
+			)}
+		>
+			<TextInput
+				{...getInputProps(name, { type: "text" })}
+				error={name.errors?.toString()}
+				label="Name"
+				styles={{ input: { fontSize: 16 } }}
+			/>
+			<TextInput
+				{...getInputProps(email, { type: "text" })}
+				error={email.errors?.toString()}
+				label="Email"
+				styles={{ input: { fontSize: 16 } }}
+			/>
+			<TextInput
+				{...getInputProps(password, { type: "password" })}
+				error={password.errors?.toString()}
+				label="Password"
+				styles={{ input: { fontSize: 16 } }}
+			/>
+			<TextInput
+				{...getInputProps(passwordConfirmation, { type: "password" })}
+				error={passwordConfirmation.errors?.toString()}
+				label="Confirmation"
+				styles={{ input: { fontSize: 16 } }}
+			/>
+			<Button disabled={isPending} type="submit">
+				Save changes
+			</Button>
+		</Stack>
 	);
 };

@@ -68,7 +68,7 @@ export const UserMenuMobile = async () => {
 						<MenuItem component={Link} href={`/user/${session.user.id}`}>
 							Profile
 						</MenuItem>
-						<MenuItem component={Link} href="#">
+						<MenuItem component={Link} href={`/user/${session.user.id}/edit`}>
 							Settings
 						</MenuItem>
 						<MenuDivider />

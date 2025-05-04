@@ -1,4 +1,3 @@
-import "@mantine/core/styles.css";
 import type { Metadata } from "next";
 import type { PropsWithChildren } from "react";
 

@@ -1,8 +1,7 @@
-import Link from "next/link";
+import { Container } from "@mantine/core";
 import { Suspense } from "react";
 
 import { User } from "./_user";
-import { UserLink } from "./_user-link";
 
 export default function Page({
 	params,
@@ -10,18 +9,10 @@ export default function Page({
 	params: Promise<{ id: string }>;
 }) {
 	return (
-		<main>
-			<h1>Editing user</h1>
+		<Container p={0} size="xs" w="100%">
 			<Suspense>
 				<User params={params} />
 			</Suspense>
-			<br />
-			<div>
-				<Suspense>
-					<UserLink params={params} />
-				</Suspense>{" "}
-				| <Link href="/user">Back to user list</Link>
-			</div>
-		</main>
+		</Container>
 	);
 }
