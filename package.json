@@ -19,6 +19,7 @@
 		"@orpc/openapi": "^1.1.1",
 		"@orpc/server": "^1.1.1",
 		"@orpc/zod": "^1.1.1",
+		"babel-plugin-react-compiler": "^19.1.0-rc.1",
 		"better-auth": "^1.2.7",
 		"drizzle-orm": "^0.43.1",
 		"next": "^15.4.0-canary.11",

@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
 	experimental: {
 		dynamicIO: true,
 		ppr: true,
+		reactCompiler: true,
 	},
 	images: {
 		domains: ["secure.gravatar.com"],
