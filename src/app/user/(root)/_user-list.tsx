@@ -6,30 +6,36 @@ import { z } from "zod";
 import { listUser } from "@/lib/router";
 import { getGravaterId } from "@/lib/service";
 
+import { UserPagination } from "./_user-pagination";
+
 export const UserList = async ({
 	searchParams,
 }: { searchParams: Promise<{ page?: string }> }) => {
-	const { data } = z.object({ page: z.number() }).safeParse(await searchParams);
-	const userList = await listUser(data);
+	const { data } = z
+		.object({ page: z.coerce.number() })
+		.safeParse(await searchParams);
+	const { list, count } = await listUser(data);
 
 	return (
-		<Stack component="ul" m={0} pl={40} gap="xs">
-			{userList.map(({ email, id, name }) => (
-				<Stack component="li" gap="xs" key={id}>
-					<Group align="start" gap="xs">
-						<Image
-							alt={name}
-							height={50}
-							width={50}
-							src={`https://secure.gravatar.com/avatar/${getGravaterId(email)}`}
-						/>
-						<Anchor component={Link} href={`/user/${id}`}>
-							{name}
-						</Anchor>
-					</Group>
-					<Divider />
-				</Stack>
-			))}
-		</Stack>
+		<UserPagination total={count}>
+			<Stack component="ul" m={0} pl={40} gap="xs">
+				{list.map(({ email, id, name }) => (
+					<Stack component="li" gap="xs" key={id}>
+						<Group align="start" gap="xs">
+							<Image
+								alt={name}
+								height={50}
+								width={50}
+								src={`https://secure.gravatar.com/avatar/${getGravaterId(email)}`}
+							/>
+							<Anchor component={Link} href={`/user/${id}`}>
+								{name}
+							</Anchor>
+						</Group>
+						<Divider />
+					</Stack>
+				))}
+			</Stack>
+		</UserPagination>
 	);
 };

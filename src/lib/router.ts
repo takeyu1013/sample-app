@@ -1,5 +1,5 @@
 import { ORPCError, os } from "@orpc/server";
-import { eq } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "./db";
@@ -31,16 +31,19 @@ export const readUser = os
 
 export const listUser = os
 	.route({ method: "GET", path: "/user/list", tags })
-	.input(z.object({ page: z.number() }).optional())
-	.output(z.array(userSchema))
-	.handler(
-		async ({ input: { page } = { page: 1 } }) =>
-			await db
+	.input(z.object({ page: z.number().optional() }).optional().default({}))
+	.output(z.object({ list: z.array(userSchema), count: z.number() }))
+	.handler(async ({ input: { page = 1 } }) => {
+		const [list, [{ count: rowCount }]] = await Promise.all([
+			db
 				.select()
 				.from(userTable)
 				.limit(PAGE_SIZE)
 				.offset((page - 1) * PAGE_SIZE),
-	)
+			db.select({ count: count() }).from(userTable),
+		]);
+		return { list, count: Math.ceil(rowCount / PAGE_SIZE) };
+	})
 	.callable();
 
 export const micropostSchema = z.object({

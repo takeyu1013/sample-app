@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 import "@mantine/core/styles.css";
 import type { Metadata } from "next";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 
 import { fullTitle } from "@/lib/service";
@@ -29,23 +30,25 @@ export default function RootLayout({
 				<ColorSchemeScript />
 			</head>
 			<body>
-				<MantineProvider theme={{ activeClassName: "" }}>
-					<AppShell
-						header={{ height: 50 }}
-						styles={{
-							footer: { position: "static" },
-							main: { minHeight: "100%" },
-						}}
-					>
-						<Header />
-						<Container size="lg">
-							<Stack gap="xl">
-								<AppShellMain>{children}</AppShellMain>
-								<Footer />
-							</Stack>
-						</Container>
-					</AppShell>
-				</MantineProvider>
+				<NuqsAdapter>
+					<MantineProvider theme={{ activeClassName: "" }}>
+						<AppShell
+							header={{ height: 50 }}
+							styles={{
+								footer: { position: "static" },
+								main: { minHeight: "100%" },
+							}}
+						>
+							<Header />
+							<Container size="lg">
+								<Stack gap="xl">
+									<AppShellMain>{children}</AppShellMain>
+									<Footer />
+								</Stack>
+							</Container>
+						</AppShell>
+					</MantineProvider>
+				</NuqsAdapter>
 			</body>
 		</html>
 	);
