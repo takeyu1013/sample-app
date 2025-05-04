@@ -30,7 +30,8 @@ export const updateUserAction = async (state: unknown, formData: FormData) => {
 	}
 
 	const headers = await nextHeaders();
-	const { changeEmail, getSession, setPassword, updateUser } = auth.api;
+	const { changeEmail, forgetPassword, getSession, resetPassword, updateUser } =
+		auth.api;
 	const session = await getSession({ headers });
 	if (!session) {
 		return submission.reply();
@@ -43,9 +44,12 @@ export const updateUserAction = async (state: unknown, formData: FormData) => {
 	const operationList = [updateUser({ body: { name }, headers })];
 	const operationListEmail =
 		email !== newEmail ? [changeEmail({ body: { newEmail }, headers })] : [];
-	const operationListPassword = password
-		? [setPassword({ body: { newPassword: password }, headers })]
-		: [];
+	const updatePassword = async (id: string, password: string) => {
+		const ctx = await auth.$context;
+		const hash = await ctx.password.hash(password);
+		await ctx.internalAdapter.updatePassword(id, hash);
+	};
+	const operationListPassword = password ? [updatePassword(id, password)] : [];
 	await Promise.all([
 		...operationList,
 		...operationListEmail,
