@@ -1,8 +1,11 @@
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
+import { ZodSmartCoercionPlugin } from "@orpc/zod";
 
 import { router } from "@/lib/router";
 
-const handler = new OpenAPIHandler(router);
+const handler = new OpenAPIHandler(router, {
+	plugins: [new ZodSmartCoercionPlugin()],
+});
 
 const handleRequest = async (request: Request) => {
 	const { response } = await handler.handle(request, { prefix: "/api" });

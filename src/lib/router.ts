@@ -6,6 +6,7 @@ import { db } from "./db";
 import { micropostTable, userTable } from "./db/schema";
 
 const tags = ["Default"];
+const PAGE_SIZE = 30 as const;
 
 export const userSchema = z.object({
 	id: z.string(),
@@ -30,8 +31,16 @@ export const readUser = os
 
 export const listUser = os
 	.route({ method: "GET", path: "/user/list", tags })
+	.input(z.object({ page: z.number() }).optional())
 	.output(z.array(userSchema))
-	.handler(async () => await db.select().from(userTable))
+	.handler(
+		async ({ input: { page } = { page: 1 } }) =>
+			await db
+				.select()
+				.from(userTable)
+				.limit(PAGE_SIZE)
+				.offset((page - 1) * PAGE_SIZE),
+	)
 	.callable();
 
 export const micropostSchema = z.object({

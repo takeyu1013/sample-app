@@ -1,5 +1,4 @@
 import { Box, Stack } from "@mantine/core";
-import Link from "next/link";
 import { Suspense } from "react";
 
 import { Form } from "./_form";
@@ -17,9 +16,6 @@ export default function Page({
 					<User params={params} />
 				</Suspense>
 			</Box>
-			<div>
-				<Link href="/user">Back to user list</Link>
-			</div>
 			<Suspense>
 				<Form params={params} />
 			</Suspense>
