@@ -1,7 +1,6 @@
 import { Box, Stack } from "@mantine/core";
 import { Suspense } from "react";
 
-import { Form } from "./_form";
 import { User } from "./_user";
 
 export default function Page({
@@ -16,9 +15,6 @@ export default function Page({
 					<User params={params} />
 				</Suspense>
 			</Box>
-			<Suspense>
-				<Form params={params} />
-			</Suspense>
 		</Stack>
 	);
 }
