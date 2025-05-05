@@ -1,4 +1,5 @@
 import { Anchor, Divider, Group, Stack, Text, Title } from "@mantine/core";
+import { formatDistanceToNow } from "date-fns";
 import { headers } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -52,7 +53,7 @@ export const MicropostList = async ({
 								</Anchor>
 								<Text size="sm">{content}</Text>
 								<Text c="dimmed" size="sm">
-									{createdAt.toLocaleString("ja-JP")}
+									Posted {formatDistanceToNow(createdAt)} ago.
 								</Text>
 							</Stack>
 						</Group>
