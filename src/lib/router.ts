@@ -1,14 +1,12 @@
-import { ORPCError, os } from "@orpc/server";
+import { os } from "@orpc/server";
 import { count, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
 
+import { oo } from "@orpc/openapi";
 import { auth } from "./auth";
 import { db } from "./db";
 import { micropostTable, userTable } from "./db/schema";
-
-const tags = ["Default"];
-const PAGE_SIZE = 30 as const;
 
 export const userSchema = z.object({
 	id: z.string(),
@@ -31,11 +29,11 @@ const authBase = os
 			}),
 	)
 	.errors({
-		UNAUTHORIZED: {},
+		UNAUTHORIZED: oo.spec({}, { security: [{ apiKeyCookie: [] }] }),
 	});
 
 export const readUser = authBase
-	.route({ method: "GET", path: "/user/{id}", tags })
+	.route({ method: "GET", path: "/user/{id}" })
 	.errors({ NOT_FOUND: {} })
 	.input(userSchema.pick({ id: true }))
 	.output(userSchema)
@@ -51,19 +49,22 @@ export const readUser = authBase
 	.callable();
 
 export const listUser = authBase
-	.route({ method: "GET", path: "/user/list", tags })
-	.input(z.object({ page: z.number().optional() }).optional().default({}))
-	.output(z.object({ list: z.array(userSchema), count: z.number() }))
-	.handler(async ({ input: { page = 1 } }) => {
-		const [list, [{ count: rowCount }]] = await Promise.all([
-			db
-				.select()
-				.from(userTable)
-				.limit(PAGE_SIZE)
-				.offset((page - 1) * PAGE_SIZE),
+	.route({ method: "GET", path: "/user/list" })
+	.input(
+		z
+			.object({ limit: z.number().optional(), offset: z.number().optional() })
+			.optional()
+			.default({}),
+	)
+	.output(z.object({ list: z.array(userSchema), total: z.number() }))
+	.handler(async ({ input: { limit, offset = 0 } }) => {
+		const baseQuery = db.select().from(userTable).offset(offset);
+		const query = limit ? baseQuery.limit(limit) : baseQuery;
+		const [list, [{ count: total }]] = await Promise.all([
+			query,
 			db.select({ count: count() }).from(userTable),
 		]);
-		return { list, count: Math.ceil(rowCount / PAGE_SIZE) };
+		return { list, total };
 	})
 	.callable();
 
@@ -74,37 +75,39 @@ export const micropostSchema = z.object({
 });
 
 export const createMicropost = os
-	.route({ method: "POST", path: "/micropost", successStatus: 201, tags })
+	.route({ method: "POST", path: "/micropost", successStatus: 201 })
+	.errors({ NOT_FOUND: {} })
 	.input(micropostSchema.pick({ content: true, userId: true }))
 	.output(micropostSchema.pick({ id: true }))
-	.handler(async ({ input }) => {
+	.handler(async ({ errors: { NOT_FOUND }, input }) => {
 		const result = (
 			await db.insert(micropostTable).values(input).returning()
 		).at(0);
 		if (!result) {
-			throw new ORPCError("NOT_FOUND");
+			throw NOT_FOUND;
 		}
 		return { id: result.id };
 	})
 	.callable();
 
 export const readMicropost = os
-	.route({ method: "GET", path: "/micropost/{id}", tags })
+	.route({ method: "GET", path: "/micropost/{id}" })
+	.errors({ NOT_FOUND: {} })
 	.input(micropostSchema.pick({ id: true }))
 	.output(micropostSchema)
-	.handler(async ({ input: { id } }) => {
+	.handler(async ({ errors: { NOT_FOUND }, input: { id } }) => {
 		const result = (
 			await db.select().from(micropostTable).where(eq(micropostTable.id, id))
 		).at(0);
 		if (!result) {
-			throw new ORPCError("NOT_FOUND");
+			throw NOT_FOUND;
 		}
 		return result;
 	})
 	.callable();
 
 export const updateMicropost = os
-	.route({ method: "PUT", path: "/micropost/{id}", successStatus: 204, tags })
+	.route({ method: "PUT", path: "/micropost/{id}", successStatus: 204 })
 	.input(micropostSchema)
 	.handler(async ({ input: { id, ...rest } }) => {
 		await db.update(micropostTable).set(rest).where(eq(micropostTable.id, id));
@@ -117,7 +120,6 @@ export const deleteMicropost = os
 		method: "DELETE",
 		path: "/micropost/{id}",
 		successStatus: 204,
-		tags,
 	})
 	.input(z.object({ params: micropostSchema.pick({ id: true }) }))
 	.handler(
@@ -130,7 +132,7 @@ export const deleteMicropost = os
 	.callable();
 
 export const listMicropost = os
-	.route({ method: "GET", path: "/micropost/list", tags })
+	.route({ method: "GET", path: "/micropost/list" })
 	.output(z.array(micropostSchema))
 	.handler(async () => await db.select().from(micropostTable))
 	.callable();

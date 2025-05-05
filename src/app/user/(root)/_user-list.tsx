@@ -14,10 +14,13 @@ export const UserList = async ({
 	const { data } = z
 		.object({ page: z.coerce.number() })
 		.safeParse(await searchParams);
-	const { list, count } = await listUser(data);
+	const page = data ? data.page : 1;
+	const limit = 30 as const;
+	const { list, total } = await listUser({ limit, offset: page - 1 * limit });
+	const pageSize = Math.ceil(total / limit);
 
 	return (
-		<UserPagination total={count}>
+		<UserPagination total={pageSize}>
 			<Stack component="ul" m={0} pl={40} gap="xs">
 				{list.map(({ email, id, name }) => (
 					<Stack component="li" gap="xs" key={id}>
