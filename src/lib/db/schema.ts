@@ -22,7 +22,7 @@ export const micropostTable = sqliteTable("micropost", {
 	content: text().notNull(),
 	userId: text("user_id")
 		.notNull()
-		.references(() => userTable.id),
+		.references(() => userTable.id, { onDelete: "cascade" }),
 });
 
 export const session = sqliteTable("session", {
