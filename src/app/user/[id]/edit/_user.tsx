@@ -11,16 +11,13 @@ export const User = async ({
 }: {
 	params: Promise<{ id: string }>;
 }) => {
-	const session = await auth.api.getSession({ headers: await headers() });
-	if (!session) {
+	const result = await auth.api.getSession({ headers: await headers() });
+	if (!result) {
 		redirect("/login");
 	}
 
-	const {
-		session: { userId },
-	} = session;
 	const { id } = await params;
-	if (userId !== id) {
+	if (result.session.userId !== id) {
 		redirect("/");
 	}
 

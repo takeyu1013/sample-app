@@ -1,10 +1,19 @@
 import { Group, Title } from "@mantine/core";
+import { headers } from "next/headers";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
+import { auth } from "@/lib/auth";
 import { readUser } from "@/lib/router";
 import { getGravaterId } from "@/lib/service";
 
 export const User = async ({ params }: { params: Promise<{ id: string }> }) => {
+	const headerMap = await headers();
+	const result = await auth.api.getSession({ headers: headerMap });
+	if (!result) {
+		redirect("/login");
+	}
+
 	const { id } = await params;
 	const { email, name } = await readUser({ id });
 
