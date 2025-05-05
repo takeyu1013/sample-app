@@ -21,6 +21,7 @@
 		"@orpc/zod": "^1.1.1",
 		"babel-plugin-react-compiler": "^19.1.0-rc.1",
 		"better-auth": "^1.2.7",
+		"date-fns": "^4.1.0",
 		"drizzle-orm": "^0.43.1",
 		"next": "^15.4.0-canary.20",
 		"nuqs": "^2.4.3",
