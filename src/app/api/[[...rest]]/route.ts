@@ -1,10 +1,32 @@
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
-import { ZodSmartCoercionPlugin } from "@orpc/zod";
+import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
+import { ZodSmartCoercionPlugin, ZodToJsonSchemaConverter } from "@orpc/zod";
 
 import { router } from "@/lib/router";
 
 const handler = new OpenAPIHandler(router, {
-	plugins: [new ZodSmartCoercionPlugin()],
+	plugins: [
+		new OpenAPIReferencePlugin({
+			schemaConverters: [new ZodToJsonSchemaConverter()],
+			specGenerateOptions: {
+				info: {
+					title: "Sample App API",
+					version: "0.1.0",
+				},
+				components: {
+					securitySchemes: {
+						apiKeyCookie: {
+							type: "apiKey",
+							in: "cookie",
+							name: "apiKeyCookie",
+							description: "API Key authentication via cookie",
+						},
+					},
+				},
+			},
+		}),
+		new ZodSmartCoercionPlugin(),
+	],
 });
 
 const handleRequest = async (request: Request) => {

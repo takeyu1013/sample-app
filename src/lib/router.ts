@@ -16,21 +16,27 @@ export const userSchema = z.object({
 	name: z.string(),
 });
 
-const authBase = os.errors({ UNAUTHORIZED: {} }).use(
-	os.middleware(async ({ next }) => {
-		const result = await auth.api.getSession({ headers: await headers() });
-		if (!result) {
-			throw new ORPCError("UNAUTHORIZED");
-		}
-		return next({ context: result });
-	}),
-);
+const authBase = os
+	.use(
+		os
+			.errors({
+				UNAUTHORIZED: {},
+			})
+			.middleware(async ({ errors: { UNAUTHORIZED }, next }) => {
+				const result = await auth.api.getSession({ headers: await headers() });
+				if (!result) {
+					throw UNAUTHORIZED;
+				}
+				return next({ context: result });
+			}),
+	)
+	.errors({
+		UNAUTHORIZED: {},
+	});
 
 export const readUser = authBase
 	.route({ method: "GET", path: "/user/{id}", tags })
-	.errors({
-		NOT_FOUND: {},
-	})
+	.errors({ NOT_FOUND: {} })
 	.input(userSchema.pick({ id: true }))
 	.output(userSchema)
 	.handler(async ({ errors: { NOT_FOUND }, input: { id } }) => {

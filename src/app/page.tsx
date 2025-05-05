@@ -33,7 +33,8 @@ export default function Home() {
 			<Stack>
 				<Link href="/user">User list</Link>
 				<Link href="/micropost">Micropost list</Link>
-				<Link href="/api/spec/doc">API doc</Link>
+				<Link href="/api">API doc</Link>
+				<Link href="/api/auth/reference">Auth API doc</Link>
 			</Stack>
 		</Stack>
 	);
