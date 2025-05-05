@@ -1,4 +1,4 @@
-import { Anchor, Button, Divider, Group, Stack } from "@mantine/core";
+import { Anchor, Box, Button, Divider, Group, Stack } from "@mantine/core";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import Image from "next/image";
@@ -45,33 +45,35 @@ export const UserList = async ({
 								width={50}
 								src={`https://secure.gravatar.com/avatar/${getGravaterId(email)}`}
 							/>
-							<Anchor component={Link} href={`/user/${id}`}>
-								{name}
-							</Anchor>
-							{isAdmin && (
-								<>
-									{" "}
-									|{" "}
-									<Button
-										fw="normal"
-										h="auto"
-										lh="md"
-										onClick={async () => {
-											"use server";
-											await auth.api.removeUser({
-												body: { userId: id },
-												headers: headerMap,
-											});
-											revalidatePath("/user");
-										}}
-										p={0}
-										size="md"
-										variant="transparent"
-									>
-										delete
-									</Button>
-								</>
-							)}
+							<Box>
+								<Anchor component={Link} href={`/user/${id}`}>
+									{name}
+								</Anchor>
+								{isAdmin && (
+									<>
+										{" "}
+										|{" "}
+										<Button
+											fw="normal"
+											h="auto"
+											lh="md"
+											onClick={async () => {
+												"use server";
+												await auth.api.removeUser({
+													body: { userId: id },
+													headers: headerMap,
+												});
+												revalidatePath("/user");
+											}}
+											p={0}
+											size="md"
+											variant="transparent"
+										>
+											delete
+										</Button>
+									</>
+								)}
+							</Box>
 						</Group>
 						<Divider />
 					</Stack>
