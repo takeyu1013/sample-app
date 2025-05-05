@@ -1,6 +1,7 @@
-import { Box, Stack } from "@mantine/core";
+import { Flex, Stack } from "@mantine/core";
 import { Suspense } from "react";
 
+import { MicropostList } from "./_micropost-list";
 import { User } from "./_user";
 
 export default function Page({
@@ -10,11 +11,19 @@ export default function Page({
 }) {
 	return (
 		<Stack component="aside" pt={30}>
-			<Box component="section">
+			<Flex
+				component="section"
+				direction={{ base: "column", sm: "row" }}
+				justify={{ sm: "space-between" }}
+				rowGap="xl"
+			>
 				<Suspense>
 					<User params={params} />
 				</Suspense>
-			</Box>
+				<Suspense>
+					<MicropostList params={params} />
+				</Suspense>
+			</Flex>
 		</Stack>
 	);
 }

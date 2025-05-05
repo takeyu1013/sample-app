@@ -1,9 +1,9 @@
+import { oo } from "@orpc/openapi";
 import { os } from "@orpc/server";
 import { count, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
 
-import { oo } from "@orpc/openapi";
 import { auth } from "./auth";
 import { db } from "./db";
 import { micropostTable, userTable } from "./db/schema";
@@ -71,6 +71,7 @@ export const listUser = authBase
 export const micropostSchema = z.object({
 	id: z.string(),
 	content: z.string(),
+	createdAt: z.date(),
 	userId: z.string(),
 });
 
@@ -108,7 +109,7 @@ export const readMicropost = os
 
 export const updateMicropost = os
 	.route({ method: "PUT", path: "/micropost/{id}", successStatus: 204 })
-	.input(micropostSchema)
+	.input(micropostSchema.pick({ id: true, content: true, userId: true }))
 	.handler(async ({ input: { id, ...rest } }) => {
 		await db.update(micropostTable).set(rest).where(eq(micropostTable.id, id));
 	})
@@ -131,10 +132,32 @@ export const deleteMicropost = os
 	)
 	.callable();
 
-export const listMicropost = os
+export const listMicropost = authBase
 	.route({ method: "GET", path: "/micropost/list" })
-	.output(z.array(micropostSchema))
-	.handler(async () => await db.select().from(micropostTable))
+	.input(
+		z.object({
+			limit: z.number().optional(),
+			offset: z.number().optional(),
+			userId: z.string(),
+		}),
+	)
+	.output(z.object({ list: z.array(micropostSchema), total: z.number() }))
+	.handler(async ({ input: { limit, offset = 0, userId } }) => {
+		const baseQuery = db
+			.select()
+			.from(micropostTable)
+			.where(eq(micropostTable.userId, userId))
+			.offset(offset);
+		const query = limit ? baseQuery.limit(limit) : baseQuery;
+		const [list, [{ count: total }]] = await Promise.all([
+			query,
+			db
+				.select({ count: count() })
+				.from(micropostTable)
+				.where(eq(micropostTable.userId, userId)),
+		]);
+		return { list, total };
+	})
 	.callable();
 
 export const router = {

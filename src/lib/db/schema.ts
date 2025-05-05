@@ -1,4 +1,5 @@
 import { generateId } from "better-auth";
+import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const userTable = sqliteTable("user", {
@@ -23,6 +24,12 @@ export const micropostTable = sqliteTable("micropost", {
 	userId: text("user_id")
 		.notNull()
 		.references(() => userTable.id, { onDelete: "cascade" }),
+	createdAt: integer("created_at", { mode: "timestamp" })
+		.notNull()
+		.default(sql`(unixepoch())`),
+	updatedAt: integer("updated_at", { mode: "timestamp" })
+		.notNull()
+		.default(sql`(unixepoch())`),
 });
 
 export const session = sqliteTable("session", {

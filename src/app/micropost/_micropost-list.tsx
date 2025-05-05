@@ -1,13 +1,22 @@
 import Link from "next/link";
 
+import { auth } from "@/lib/auth";
 import { listMicropost } from "@/lib/router";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const MicropostList = async () => {
-	const micropostList = await listMicropost();
+	const headerMap = await headers();
+	const result = await auth.api.getSession({ headers: headerMap });
+	if (!result) {
+		redirect("/login");
+	}
+
+	const { list } = await listMicropost({ userId: result.session.userId });
 
 	return (
 		<div>
-			{micropostList.map(({ content, id, userId }) => (
+			{list.map(({ content, id, userId }) => (
 				<div key={id}>
 					<p>
 						<strong>Content: </strong>
