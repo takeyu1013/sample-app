@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# sample-app
 
-## Getting Started
+## 概要
 
-First, run the development server:
+本アプリは Rails チュートリアルのアプリを Next.js などの TypeScript の技術で作成したもの。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 使い方
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. <https://sample-app-tawny.vercel.app/>にアクセス
+2. メニューの"Log in"を選択
+3. テスト用アカウントでログインする
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   - テスト用一般ユーザーアカウント
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+     | Email           | Password  |
+     | --------------- | --------- |
+     | foo@example.com | sampleapp |
 
-## Learn More
+   - テスト用管理者アカウント（ユーザー削除が可能）
 
-To learn more about Next.js, take a look at the following resources:
+     | Email             | Password  |
+     | ----------------- | --------- |
+     | admin@example.com | sampleapp |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. メニューから"Home"を選択
+5. テキストエリアにポストを入力して投稿する
+6. メニューから"User"を選択し、ユーザーの一覧を確認する
+7. メニューから"Account"->"Settings"を選択し、プロフィールを変更する
+8. メニューから"Account"->"Log out"を選択し、ログアウトする
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API 仕様
 
-## Deploy on Vercel
+- Sample App API 仕様: <https://sample-app-tawny.vercel.app/api>
+- Better Auth API 仕様: <https://sample-app-tawny.vercel.app/api/auth/reference>
+- アプリにログインしている状態であれば Test Request 可能
+  - 自動的に Cookie が読み込まれる
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 技術構成
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- フロントエンド
+  - フレームワーク: Next.js(App Router)
+  - UI ライブラリ: Mantine
+  - その他: Conform, nuqs, date-fns
+- バックエンド
+  - 認証: Better Auth
+  - API: oRPC(via Next.js API Routes)
+  - データベース: Drizzle ORM(SQLite)
+  - その他: Zod, Scalar
+- インフラ
+  - ホスティング: Vercel
+  - データベース: Turso
+- 開発ツール
+  - リンター兼フォーマッター: Biome.js
+  - パッケージ管理: Bun
+  - その他: VSCode, Dev Container
+
+## 開発のポイント
+
+- Next.js Dynamic IO 及び PPR 活用
+  - 動的なデータを表示する部分以外は静的レンダリング
+- Better Auth の活用
+  - Drizzle ORM と連携することで DB スキーマを自動生成
+  - プライグインによる管理者権限管理
+  - プライグインによる OpenAPI 仕様出力
+- oRPC による OpenAPI 仕様の自動生成
+  - Zod によるスキーマ定義及びバリデーション
+  - サーバーコンポーネントやサーバーアクションでは API に対応する関数を直接呼び出す
+- nuqs によるサーバーコンポーネントのレンダリング制御
+  - ページネーションなどでクエリパラメーターを操作してデータを取得
+
+## 今後の課題
+
+- ユーザーフォロー機能
+- 画像アップロード機能
+- メール送信（認証用）
+- 自動テスト
