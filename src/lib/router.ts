@@ -75,20 +75,17 @@ export const micropostSchema = z.object({
 	userId: z.string(),
 });
 
-export const createMicropost = os
+export const createMicropost = authBase
 	.route({ method: "POST", path: "/micropost", successStatus: 201 })
-	.errors({ NOT_FOUND: {} })
-	.input(micropostSchema.pick({ content: true, userId: true }))
-	.output(micropostSchema.pick({ id: true }))
-	.handler(async ({ errors: { NOT_FOUND }, input }) => {
-		const result = (
-			await db.insert(micropostTable).values(input).returning()
-		).at(0);
-		if (!result) {
-			throw NOT_FOUND;
-		}
-		return { id: result.id };
-	})
+	.input(micropostSchema.pick({ content: true }))
+	.handler(
+		async ({
+			context: {
+				session: { userId },
+			},
+			input: { content },
+		}) => await db.insert(micropostTable).values({ content, userId }),
+	)
 	.callable();
 
 export const readMicropost = os
