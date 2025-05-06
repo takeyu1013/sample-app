@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
 		reactCompiler: true,
 	},
 	images: {
-		domains: ["secure.gravatar.com"],
+		remotePatterns: [new URL("https://secure.gravatar.com/avatar/**")],
 	},
 };
 
