@@ -15,15 +15,16 @@ export const userSchema = z.object({
 });
 
 const authBase = os
+
 	.use(
 		os
-			.errors({
-				UNAUTHORIZED: {},
-			})
+			.errors({ UNAUTHORIZED: {} })
 			.middleware(async ({ errors: { UNAUTHORIZED }, next }) => {
-				const result = await auth.api.getSession({ headers: await headers() });
+				const result = await auth.api.getSession({
+					headers: await headers(),
+				});
 				if (!result) {
-					throw UNAUTHORIZED;
+					throw UNAUTHORIZED();
 				}
 				return next({ context: result });
 			}),
@@ -42,7 +43,7 @@ export const readUser = authBase
 			await db.select().from(userTable).where(eq(userTable.id, id))
 		).at(0);
 		if (!result) {
-			throw NOT_FOUND;
+			throw NOT_FOUND();
 		}
 		return result;
 	})
@@ -98,7 +99,7 @@ export const readMicropost = os
 			await db.select().from(micropostTable).where(eq(micropostTable.id, id))
 		).at(0);
 		if (!result) {
-			throw NOT_FOUND;
+			throw NOT_FOUND();
 		}
 		return result;
 	})
