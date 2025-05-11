@@ -18,7 +18,7 @@ export const User = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const { email, name } = await readUser({ id });
 
 	return (
-		<Group align="start" gap="xs">
+		<Group align="start" flex="0 0 calc(100% / 3)" gap="xs">
 			<Image
 				alt="Michael Hartl"
 				height={80}

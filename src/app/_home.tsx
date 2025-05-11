@@ -26,13 +26,13 @@ export const Home = async () => {
 
 	return result ? (
 		<Flex
+			columnGap="xl"
 			component="section"
 			direction={{ base: "column", sm: "row" }}
 			py="xl"
 			rowGap="xl"
-			columnGap="xl"
 		>
-			<Stack flex={`0 0 ${100 / 3}%`} gap="xl">
+			<Stack flex="0 0 calc(100% / 3)" gap="xl">
 				<Group align="start" gap="xs">
 					<Image
 						alt="avater"

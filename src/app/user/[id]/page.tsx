@@ -12,9 +12,9 @@ export default function Page({
 	return (
 		<Stack component="aside" pt={30}>
 			<Flex
+				columnGap="xl"
 				component="section"
 				direction={{ base: "column", sm: "row" }}
-				justify={{ sm: "space-between" }}
 				rowGap="xl"
 			>
 				<Suspense>

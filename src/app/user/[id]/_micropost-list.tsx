@@ -25,8 +25,8 @@ export const MicropostList = async ({
 	]);
 
 	return (
-		<Stack gap="xs" flex={`0 0 ${(100 * 2) / 3}%`}>
-			<Title fw={500} order={3} size={24}>
+		<Stack flex={1} gap="xs">
+			<Title fw={500} lh={1} order={3} size={24}>
 				Micropost list ({total})
 			</Title>
 			<Stack
