@@ -89,30 +89,6 @@ export const createMicropost = authBase
 	)
 	.callable();
 
-export const readMicropost = os
-	.route({ method: "GET", path: "/micropost/{id}" })
-	.errors({ NOT_FOUND: {} })
-	.input(micropostSchema.pick({ id: true }))
-	.output(micropostSchema)
-	.handler(async ({ errors: { NOT_FOUND }, input: { id } }) => {
-		const result = (
-			await db.select().from(micropostTable).where(eq(micropostTable.id, id))
-		).at(0);
-		if (!result) {
-			throw NOT_FOUND();
-		}
-		return result;
-	})
-	.callable();
-
-export const updateMicropost = os
-	.route({ method: "PUT", path: "/micropost/{id}", successStatus: 204 })
-	.input(micropostSchema.pick({ id: true, content: true, userId: true }))
-	.handler(async ({ input: { id, ...rest } }) => {
-		await db.update(micropostTable).set(rest).where(eq(micropostTable.id, id));
-	})
-	.callable();
-
 export const deleteMicropost = authBase
 	.route({
 		inputStructure: "detailed",
@@ -170,8 +146,6 @@ export const router = {
 	readUser,
 	listUser,
 	createMicropost,
-	readMicropost,
-	updateMicropost,
 	deleteMicropost,
 	listMicropost,
 };

@@ -91,7 +91,6 @@ export const Home = async () => {
 			</Card>
 			<Image alt="rails" height={70} width={200} src="rails.svg" />
 			<Stack>
-				<Link href="/micropost">Micropost list</Link>
 				<Link href="/api">Sample App API doc</Link>
 				<Link href="/api/auth/reference">Auth API doc</Link>
 			</Stack>
