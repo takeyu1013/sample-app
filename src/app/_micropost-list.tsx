@@ -1,10 +1,19 @@
-import { Anchor, Divider, Group, Stack, Text } from "@mantine/core";
+import {
+	Anchor,
+	Box,
+	Button,
+	Divider,
+	Group,
+	Stack,
+	Text,
+} from "@mantine/core";
 import { formatDistanceToNow } from "date-fns";
+import { revalidatePath } from "next/cache";
 import Image from "next/image";
-
-import { listMicropost, readUser } from "@/lib/router";
-import { getGravaterId } from "@/lib/service";
 import Link from "next/link";
+
+import { deleteMicropost, listMicropost, readUser } from "@/lib/router";
+import { getGravaterId } from "@/lib/service";
 
 export const MicropostList = async ({ userId }: { userId: string }) => {
 	const [{ list }, { email, name }] = await Promise.all([
@@ -36,9 +45,27 @@ export const MicropostList = async ({ userId }: { userId: string }) => {
 								{name}
 							</Anchor>
 							<Text size="sm">{content}</Text>
-							<Text c="dimmed" size="sm">
-								Posted {formatDistanceToNow(createdAt)} ago.
-							</Text>
+							<Box component="span" fz="sm" lh="sm">
+								<Text c="dimmed" size="sm" span>
+									Posted {formatDistanceToNow(createdAt)} ago.
+								</Text>{" "}
+								<Button
+									bd={0}
+									fw="normal"
+									h="auto"
+									lh="sm"
+									onClick={async () => {
+										"use server";
+										await deleteMicropost({ params: { id } });
+										revalidatePath("/");
+									}}
+									p={0}
+									size="sm"
+									variant="transparent"
+								>
+									delete
+								</Button>
+							</Box>
 						</Stack>
 					</Group>
 				</Stack>

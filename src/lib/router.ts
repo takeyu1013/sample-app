@@ -1,6 +1,6 @@
 import { oo } from "@orpc/openapi";
 import { os } from "@orpc/server";
-import { count, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
 
@@ -113,7 +113,7 @@ export const updateMicropost = os
 	})
 	.callable();
 
-export const deleteMicropost = os
+export const deleteMicropost = authBase
 	.route({
 		inputStructure: "detailed",
 		method: "DELETE",
@@ -123,10 +123,18 @@ export const deleteMicropost = os
 	.input(z.object({ params: micropostSchema.pick({ id: true }) }))
 	.handler(
 		async ({
+			context: {
+				session: { userId },
+			},
 			input: {
 				params: { id },
 			},
-		}) => await db.delete(micropostTable).where(eq(micropostTable.id, id)),
+		}) =>
+			await db
+				.delete(micropostTable)
+				.where(
+					and(eq(micropostTable.id, id), eq(micropostTable.userId, userId)),
+				),
 	)
 	.callable();
 
