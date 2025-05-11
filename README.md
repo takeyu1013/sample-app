@@ -2,7 +2,7 @@
 
 ## 概要
 
-本アプリは Rails チュートリアルのアプリを Next.js などの TypeScript の技術で作成したもの。
+本アプリはRailsチュートリアルのアプリをNext.jsなどのTypeScriptの技術で作成したもの。
 
 ## 使い方
 
@@ -30,10 +30,10 @@
 
 ## API 仕様
 
-- Sample App API 仕様: <https://sample-app-tawny.vercel.app/api>
-- Better Auth API 仕様: <https://sample-app-tawny.vercel.app/api/auth/reference>
-- アプリにログインしている状態であれば Test Request 可能
-  - 自動的に Cookie が読み込まれる
+- Sample App API仕様: <https://sample-app-tawny.vercel.app/api>
+- Better Auth API仕様: <https://sample-app-tawny.vercel.app/api/auth/reference>
+- アプリにログインしている状態であればTest Request可能
+  - 自動的にCookieが読み込まれる
 
 ## 技術構成
 
@@ -56,16 +56,16 @@
 
 ## 開発のポイント
 
-- Next.js Dynamic IO 及び PPR 活用
+- Next.js Dynamic IO及びPPR活用
   - 動的なデータを表示する部分以外は静的レンダリング
-- Better Auth の活用
-  - Drizzle ORM と連携することで DB スキーマを自動生成
+- Better Authの活用
+  - Drizzle ORMと連携することでDBスキーマを自動生成
   - プライグインによる管理者権限管理
-  - プライグインによる OpenAPI 仕様出力
-- oRPC による OpenAPI 仕様の自動生成
-  - Zod によるスキーマ定義及びバリデーション
-  - サーバーコンポーネントやサーバーアクションでは API に対応する関数を直接呼び出す
-- nuqs によるサーバーコンポーネントのレンダリング制御
+  - プライグインによるOpenAPI仕様出力
+- oRPC によるOpenAPI仕様の自動生成
+  - Zodによるスキーマ定義及びバリデーション
+  - サーバーコンポーネントやサーバーアクションではAPIに対応する関数を直接呼び出す
+- nuqsによるサーバーコンポーネントのレンダリング制御
   - ページネーションなどでクエリパラメーターを操作してデータを取得
 
 ## 今後の課題
