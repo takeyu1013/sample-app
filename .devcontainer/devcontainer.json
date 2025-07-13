@@ -9,11 +9,7 @@
 
 	"customizations": {
 		"vscode": {
-			"extensions": [
-				"biomejs.biome",
-				"oven.bun-vscode",
-				"seatonjiang.gitmoji-vscode"
-			],
+			"extensions": ["biomejs.biome", "oven.bun-vscode"],
 			"settings": {
 				"editor.codeActionsOnSave": {
 					"source.fixAll": "explicit",
