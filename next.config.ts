@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
 		ignoreDuringBuilds: true,
 	},
 	experimental: {
-		dynamicIO: true,
+		cacheComponents: true,
 		ppr: true,
 		reactCompiler: true,
 	},
