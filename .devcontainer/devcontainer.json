@@ -4,10 +4,6 @@
 	"dockerFile": "Dockerfile",
 	"runArgs": ["--rm", "--name=${localWorkspaceFolderBasename}"],
 
-	"features": {
-		"ghcr.io/devcontainers/features/github-cli": {}
-	},
-
 	"customizations": {
 		"vscode": {
 			"extensions": ["biomejs.biome", "oven.bun-vscode"],
