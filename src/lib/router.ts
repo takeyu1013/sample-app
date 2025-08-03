@@ -15,7 +15,6 @@ export const userSchema = z.object({
 });
 
 const authBase = os
-
 	.use(
 		os
 			.errors({ UNAUTHORIZED: {} })
