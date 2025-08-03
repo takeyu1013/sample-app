@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
 	},
 	experimental: {
 		cacheComponents: true,
-		ppr: true,
 		reactCompiler: true,
 	},
 	images: {
