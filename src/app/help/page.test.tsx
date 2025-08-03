@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 
 import { screen } from "@testing-library/react";
 
-import { render } from "@/lib/render";
+import { render } from "@/component/render";
 
 import Page from "./page";
 
