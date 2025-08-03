@@ -1,13 +1,13 @@
 "use server";
 
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { ORPCError } from "@orpc/client";
 import { revalidatePath } from "next/cache";
 
 import { createMicropost, micropostSchema } from "@/lib/router";
 
 export const createMicropostAction = async (
-	state: unknown,
+	_state: unknown,
 	formData: FormData,
 ) => {
 	const submission = parseWithZod(formData, {

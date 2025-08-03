@@ -1,6 +1,6 @@
 "use server";
 
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { APIError } from "better-auth/api";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import { auth } from "@/lib/auth";
 
-export const createUserAction = async (state: unknown, formData: FormData) => {
+export const createUserAction = async (_state: unknown, formData: FormData) => {
 	const submission = parseWithZod(formData, {
 		schema: z
 			.object({
