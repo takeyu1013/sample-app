@@ -6,11 +6,7 @@ import { readUser } from "@/lib/router";
 
 import { Form } from "./_form";
 
-export const User = async ({
-	params,
-}: {
-	params: Promise<{ id: string }>;
-}) => {
+export const User = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const result = await auth.api.getSession({ headers: await headers() });
 	if (!result) {
 		redirect("/login");

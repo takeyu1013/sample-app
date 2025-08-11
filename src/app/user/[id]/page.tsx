@@ -4,11 +4,7 @@ import { Suspense } from "react";
 import { MicropostList } from "./_micropost-list";
 import { User } from "./_user";
 
-export default function Page({
-	params,
-}: {
-	params: Promise<{ id: string }>;
-}) {
+export default function Page({ params }: { params: Promise<{ id: string }> }) {
 	return (
 		<Stack component="aside" pt={30}>
 			<Flex

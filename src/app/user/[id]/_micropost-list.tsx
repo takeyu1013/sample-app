@@ -21,7 +21,9 @@ import { getGravaterId } from "@/lib/service";
 
 export const MicropostList = async ({
 	params,
-}: { params: Promise<{ id: string }> }) => {
+}: {
+	params: Promise<{ id: string }>;
+}) => {
 	const headerMap = await headers();
 	const result = await auth.api.getSession({ headers: headerMap });
 	if (!result) {

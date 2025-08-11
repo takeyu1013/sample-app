@@ -11,7 +11,10 @@ import { updateUserAction } from "./_action";
 export const Form = ({
 	email: defaultEmail,
 	name: defaultName,
-}: { email: string; name: string }) => {
+}: {
+	email: string;
+	name: string;
+}) => {
 	const [lastResult, action, isPending] = useActionState(
 		updateUserAction,
 		undefined,

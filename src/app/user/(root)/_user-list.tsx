@@ -16,7 +16,9 @@ const limit = 30 as const;
 
 export const UserList = async ({
 	searchParams,
-}: { searchParams: Promise<{ page?: string }> }) => {
+}: {
+	searchParams: Promise<{ page?: string }>;
+}) => {
 	const headerMap = await headers();
 	const result = await auth.api.getSession({ headers: headerMap });
 	if (!result) {
