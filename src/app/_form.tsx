@@ -3,9 +3,7 @@
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { Alert, Button, Input, Stack, Textarea } from "@mantine/core";
 import { useActionState } from "react";
-
 import { usePreventDefault } from "@/lib/hook";
-
 import { createMicropostAction } from "./_action";
 
 export const Form = () => {
