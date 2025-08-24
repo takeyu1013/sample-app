@@ -1,7 +1,7 @@
 "use client";
 
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
-import { Alert, Button, Stack, Textarea } from "@mantine/core";
+import { Alert, Button, Input, Stack, Textarea } from "@mantine/core";
 import { useActionState } from "react";
 
 import { usePreventDefault } from "@/lib/hook";
@@ -34,6 +34,7 @@ export const Form = () => {
 				resize="vertical"
 				styles={{ input: { fontSize: 16 } }}
 			/>
+			<Input styles={{ input: { border: 0, padding: 0 } }} type="file" />
 			<Button disabled={isPending} type="submit">
 				Post
 			</Button>
